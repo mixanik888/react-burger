@@ -1,15 +1,12 @@
 header {
     width: 100%;
-    max-width: 1280px; /*максимальная ширина может иметь другое значение*/
+    /*max-width: 1280px; /*максимальная ширина может иметь другое значение*/
     Top: 16px;
     left: 320px;
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    justify-content: center;
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
+    justify-content: space-around;
+    
 
   }
 
@@ -18,4 +15,9 @@ header {
     display: inline-flex;
   }
   
-  a {display: block;}
+  li {display: inline;}
+
+    a {display: flex;
+      align-items: center;}
+
+  text-decoration {color: white;}
