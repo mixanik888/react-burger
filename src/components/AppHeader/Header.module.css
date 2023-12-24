@@ -1,23 +1,80 @@
-header {
-    width: 100%;
-    /*max-width: 1280px; /*максимальная ширина может иметь другое значение*/
-    Top: 16px;
-    left: 320px;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    
+.header {
+  min-height: 88px;
+  max-width: 1920px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+}
 
-  }
+.container {
+  display: flex;
+  flex-direction: row;
+}
 
-  ul {
-    list-style: none; /*убираем маркеры списка*/
-    display: inline-flex;
-  }
+.constructor {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-width: 178px;
+  max-height: 56px;
+  margin-right: 16px;
+}
+
+.order {
+  display: flex;
+  flex-direction: row;
+
+  padding: 16px 8px;
+  min-width: 178px;
+  max-height: 56px;
+  align-items: center;
   
-  li {display: inline;}
+  margin-right: 16px;
 
-    a {display: flex;
-      align-items: center;}
+}
 
-  text-decoration {color: white;}
+.personal {
+  min-width: 159x;
+  max-height: 56px;
+
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.icon {
+  width: 24px;
+  height: 22px;
+}
+
+.icon:hover {
+  opacity: .6;
+  cursor: pointer;
+}
+
+.active {
+  transition: .2s ease-in-out;
+  color: #F2F2F3;
+}
+
+.active:hover {
+  color: #8585AD;
+  cursor: pointer;
+}
+
+.title:hover {
+  color: #F2F2F3;
+  opacity: .6;
+  cursor: pointer;
+}
+
+.title {
+  display: inline-block;
+  margin: 0 0 0 9px;
+}
+
+.logo {
+  justify-self: center;
+  margin-right: 212px;
+}

@@ -1,0 +1,22 @@
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: fixed;
+  width: 720px;
+  min-height: 539px;
+  background: #1C1C21;
+  z-index: 3;
+  border-radius: 40px;
+}
+
+.icon {
+  position: absolute;
+  right: 40px;
+  top: 59px;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  background-position: 50% 50%;
+}
