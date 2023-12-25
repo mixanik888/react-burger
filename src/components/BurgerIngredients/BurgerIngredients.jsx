@@ -6,7 +6,16 @@ import PropTypes from 'prop-types';
 import { ingredientType } from "../utils/types";
 
 export default function BurgerIngredients ({data, handleElementClick, OpenIngredientDetailsClick}) {
-  const [current, setCurrent] = React.useState('one');
+  const [current, setCurrent] = React.useState('BunTab');
+
+  const buns = React.useMemo (() => 
+    data.filter(item => item.type === 'bun'), [data]);
+
+  const sauces = React.useMemo (() => 
+    data.filter(item => item.type === 'sauce'), [data]);
+  
+  const mains = React.useMemo (() => 
+    data.filter(item => item.type === 'main'), [data]);
 
   return (
     data && <>
@@ -14,13 +23,13 @@ export default function BurgerIngredients ({data, handleElementClick, OpenIngred
       Соберите бургер
     </p>
      <div className={styles.containerTab}>
-    <Tab value="one" active={current === 'one'} onClick={setCurrent}>
+    <Tab value="BunTab" active={current === 'BunTab'} onClick={setCurrent}>
       Булки
     </Tab>
-    <Tab value="two" active={current === 'two'} onClick={setCurrent}>
+    <Tab value="SauceTab" active={current === 'SauceTab'} onClick={setCurrent}>
       Соусы
     </Tab>
-    <Tab value="three" active={current === 'three'} onClick={setCurrent}>
+    <Tab value="MainTab" active={current === 'MainTab'} onClick={setCurrent}>
       Начинки
     </Tab>
   </div>      
@@ -29,47 +38,32 @@ export default function BurgerIngredients ({data, handleElementClick, OpenIngred
           Булки
         </p>
           <div className={styles.buns}>
-            {data.map((element) => {
-              if (element.type === 'bun') {
-                return  <Ingredient
-                key={element._id}
-                element={element}
-                OpenIngredientDetailsClick={OpenIngredientDetailsClick}
-                handleElementClick={handleElementClick}/>
-              } else {return []}
-              }
-            )}
+            {buns.map((element) => {return  <Ingredient
+              key={element._id}
+              element={element}
+              OpenIngredientDetailsClick={OpenIngredientDetailsClick}
+              handleElementClick={handleElementClick}/>})}
           </div>
         <p className={`${styles.title} text text_type_main-medium mt-10`}>
           Соусы
         </p>
-        <div className={styles.sauces}>
-        {data.map((element) => {
-            if (element.type === 'sauce') {
-              return  <Ingredient
+          <div className={styles.sauces}>
+            {sauces.map((element) => {return  <Ingredient
               key={element._id}
               element={element}
               OpenIngredientDetailsClick={OpenIngredientDetailsClick}
-              handleElementClick={handleElementClick}/>
-            } else {return []}
-          }
-        )}
-      </div>
+              handleElementClick={handleElementClick}/>})}
+          </div>
         <p className={`${styles.title} text text_type_main-medium mt-10`}>
           Начинки
         </p>
         <div className={styles.mains}>
-        {data.map((element) => {
-            if (element.type === 'main') {
-              return  <Ingredient
+            {mains.map((element) => {return  <Ingredient
               key={element._id}
               element={element}
               OpenIngredientDetailsClick={OpenIngredientDetailsClick}
-              handleElementClick={handleElementClick}/>
-            } else {return []}
-          }
-        )}
-      </div>
+              handleElementClick={handleElementClick}/>})}
+        </div>
       
       </div>
    

@@ -7,11 +7,9 @@ import { ingredientType } from "../utils/types";
 
 export default function PriceCount({data}) {
   
-  data.reduce((acc, item) => acc + item.price, 0);
-  
   return (
     <div className={Styles.count}>
-      <p className="text text_type_digits-medium mr-3">{ data.reduce((acc, item) => acc + item.price, 0) }</p>
+      <p className="text text_type_digits-medium mr-3">{data.reduce((acc, item) => acc + item.price, 0)}</p>
       <CurrencyIcon type="primary" />
     </div>
   )

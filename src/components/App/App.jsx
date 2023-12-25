@@ -8,6 +8,9 @@ import OrderDetails from '../OrderDetali/OrderDetali';
 import Modal from '../Modal/Modal';
 import { Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './App.module.css';
+import getIngredients from '../utils/burger-api';
+
+
 
 export default function App () {
   const [data, setData] = React.useState([]);
@@ -16,20 +19,14 @@ export default function App () {
   const forceUpdate = React.useCallback(() => updateState({}), []);
   const [isOpen, setOpen] = React.useState(false)
   const [element, setElement] = React.useState({}); 
-  
+
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState(null);
+
   React.useEffect(() => {
-      const url = 'https://norma.nomoreparties.space/api/ingredients';
-      fetch(url)
-        .then((res) => {
-          if (res.ok) {
-            return res.json()
-          }
-          return Promise.reject(`Ошибка ${res.status}`)
-        })
-        .then((result) => {
-          setData((result.data))
-        })
-        .catch((err) => console.warn(err))
+    
+    getIngredients('https://norma.nomoreparties.space/api', setData, setError, setLoading);
+
     }, []);
 
   const OpenIngredientDetailsClick = (e, item) => {
@@ -60,8 +57,12 @@ export default function App () {
     }
 
     return (
-     <div className={styles.App}>
-        <HeaderAPPP />   
+      <div> 
+        {loading && <div>A moment please...</div>}
+        {error && (
+          <div>{`There is a problem fetching the post data - ${error}`}</div>
+        )}
+        {data&& <div className={styles.App}> <HeaderAPPP />   
         <main className={styles.content}>
           <section className={styles.ingredients}>
               <BurgerIngredients data={data}
@@ -89,7 +90,7 @@ export default function App () {
         {element ? <IngredientDetali ingredient={element} /> : <OrderDetails />}
       </Modal>
         : null}
-
+    </div>}
     </div>  
     )    
 } 
