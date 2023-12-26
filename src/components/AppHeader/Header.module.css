@@ -1,0 +1,80 @@
+.header {
+  min-height: 88px;
+  max-width: 1920px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.constructor {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-width: 178px;
+  max-height: 56px;
+  margin-right: 16px;
+}
+
+.order {
+  display: flex;
+  flex-direction: row;
+
+  padding: 16px 8px;
+  min-width: 178px;
+  max-height: 56px;
+  align-items: center;
+  
+  margin-right: 16px;
+
+}
+
+.personal {
+  min-width: 159x;
+  max-height: 56px;
+
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.icon {
+  width: 24px;
+  height: 22px;
+}
+
+.icon:hover {
+  opacity: .6;
+  cursor: pointer;
+}
+
+.active {
+  transition: .2s ease-in-out;
+  color: #F2F2F3;
+}
+
+.active:hover {
+  color: #8585AD;
+  cursor: pointer;
+}
+
+.title:hover {
+  color: #F2F2F3;
+  opacity: .6;
+  cursor: pointer;
+}
+
+.title {
+  display: inline-block;
+  margin: 0 0 0 9px;
+}
+
+.logo {
+  justify-self: center;
+  margin-right: 212px;
+}

@@ -1,0 +1,41 @@
+.App {
+  text-align: center;
+  max-width: 1920px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /*height: 100vh;*/
+}
+
+.ingredients {
+  width: 600px;
+  height: 1212px;
+  flex-direction: column;
+  display: flex;
+  margin-right: 41px;
+}
+
+.constructor {
+  width: 600px;
+  height: 1212px;
+  flex-direction: column;
+  display: flex;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+}
+
+.count {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-top: 38px;
+  margin-right: 15px;
+}
+
+.button {
+  width: 215px;
+  align-self: end;
+}
