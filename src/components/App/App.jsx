@@ -11,7 +11,6 @@ import styles from './App.module.css';
 import getIngredients from '../utils/burger-api';
 
 
-
 export default function App () {
   const [data, setData] = React.useState([]);
   const [arr] = React.useState([]);
