@@ -3,9 +3,7 @@ import styles from './BurgerIngredients.module.css';
 import { Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import Ingredient from '../Ingredient/Ingredient';
 import PropTypes from 'prop-types';
-//import { ingredientType } from "../utils/types";
 import { useSelector } from 'react-redux';
-//import { hasOnebuns } from '../services/selectors';
 
 export default function BurgerIngredients ({ handleElementClick, OpenIngredientDetailsClick}) {
   const [current, setCurrent] = React.useState('BunTab');
@@ -56,8 +54,8 @@ export default function BurgerIngredients ({ handleElementClick, OpenIngredientD
    
     if ( rectnullRef.top < rectBun.top  && rectnullRef.top < rectSauce.top && rectnullRef.top < rectMain.top)  { setCurrent("BunTab")}
     else if (rectnullRef.top > rectBun.top  && rectnullRef.top < rectSauce.top && rectnullRef.top < rectMain.top) { setCurrent("SauceTab")}
-    else if (rectnullRef.top > rectBun.top  && rectnullRef.top > rectSauce.top && rectnullRef.top < rectMain.top) { setCurrent("MainTab")}
-
+    else if (rectnullRef.top > rectBun.top  && rectnullRef.top < rectSauce.top && rectnullRef.top < rectMain.top) { setCurrent("MainTab")}
+   
   }
 
 

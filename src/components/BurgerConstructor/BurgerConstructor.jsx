@@ -1,13 +1,18 @@
 import React from "react";
 import styles from './BurgerConstructor.module.css';
 import { DragIcon, ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteConstructorItem } from '../services/reducers/ConstructorReducer';
 
-
-export default function BurgerConstructor({deleteElement}) {
-
+export default function BurgerConstructor() {
+  
+  const dispatch = useDispatch();
   const dataItem = useSelector(store => store.Burger.Ingredients);
   const Bun = useSelector(store => store.Burger.bun);
+
+   const deleteElement = (e) => {
+     dispatch (deleteConstructorItem(e));
+   }
 
   return (
     

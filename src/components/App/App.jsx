@@ -11,19 +11,19 @@ import styles from './App.module.css';
 import { useDispatch } from 'react-redux';
 import { AddOrder, loadIngredient } from '../services/actions/actions';
 import { useSelector } from 'react-redux';
-import { addConstructorItem, deleteConstructorItem, addConstructorBun, ClearConstructor} from '../services/reducers/ConstructorReducer';
+import { addConstructorItem, addConstructorBun, ClearConstructor} from '../services/reducers/ConstructorReducer';
 import { SetActionIngredient } from '../services/reducers/ActionIngredientReducer';
 
 
 export default function App () {
   const dispatch = useDispatch();
+  
   const {loading, error, data1}   = useSelector(store => store.Data); 
   const {ActionIngredient}        = useSelector(store => store.AcIngredient); 
   const {bun, Ingredients} = useSelector(store => store.Burger);
+  
   const [isOpen, setOpen] = React.useState(false)
-  //const [element, setElement] = React.useState({}); 
-  console.log(bun);
-
+ 
   const ingredients = [];
 
   React.useEffect(() => {
@@ -42,10 +42,6 @@ export default function App () {
       <h2>error: {error}</h2>
     );
   }  
-
-  const deleteElement = (e) => {
-    dispatch (deleteConstructorItem(e));
-  }
 
   const handleElementClick = (e) => {
     
@@ -102,8 +98,7 @@ export default function App () {
               OpenIngredientDetailsClick={OpenIngredientDetailsClick} />
           </section>
           <section className={styles.constructor} >
-            <BurgerConstructor 
-            deleteElement={deleteElement}/>
+            <BurgerConstructor/>
             <div className={styles.count}>
               <PriceCount/>
               <div className={styles.button} >
@@ -118,11 +113,9 @@ export default function App () {
           </section>
         </main>
         
-        {isOpen ? <Modal onClick={closeModal} onClose={closeModal} >
-        {(ActionIngredient !== null) ? <IngredientDetails /> : <OrderDetails />}
-      
-      </Modal>
-        : null}
+        {isOpen ? 
+        <Modal onClick={closeModal} onClose={closeModal} >{(ActionIngredient !== null) ? <IngredientDetails /> : <OrderDetails />}</Modal>
+        : null }
     </div>}
     </div>  
     )    
