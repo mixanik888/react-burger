@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import { ingredientType } from "../utils/types";
 
 
-export default function BurgerConstructor({ data }) {
   return (
     <div className={styles.container}>
         <div className={styles.top}>
