@@ -77,10 +77,9 @@ export default function App () {
       dispatch (SetActionIngredient(null));
       dispatch (ClearConstructor());
       setOpen(!isOpen);
-
     }
-  
-    }
+    
+  }
   
   const OpenIngredientDetailsClick = (e, item) => {
     

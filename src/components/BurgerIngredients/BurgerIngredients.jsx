@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import styles from './BurgerIngredients.module.css';
 import { Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import Ingredient from '../Ingredient/Ingredient';
@@ -14,7 +14,8 @@ export default function BurgerIngredients ({ handleElementClick, OpenIngredientD
   const scollToBun    = useRef();
   const scollToSauce  = useRef();
   const scollToMain   = useRef();
-  const scrollRef     = useRef();
+  
+  const nullRef   = useRef();
   
   const buns = React.useMemo (() => 
     data.filter(item => item.type === 'bun'), [data]);
@@ -45,10 +46,25 @@ export default function BurgerIngredients ({ handleElementClick, OpenIngredientD
     
   }  
  
+  const OnScroll = (e) =>  {
+
+    const rectBun     = scollToBun.current.getBoundingClientRect();
+    const rectSauce   = scollToSauce.current.getBoundingClientRect();
+    const rectMain    = scollToMain.current.getBoundingClientRect();
+   
+    const rectnullRef    = nullRef.current.getBoundingClientRect();
+   
+    if ( rectnullRef.top < rectBun.top  && rectnullRef.top < rectSauce.top && rectnullRef.top < rectMain.top)  { setCurrent("BunTab")}
+    else if (rectnullRef.top > rectBun.top  && rectnullRef.top < rectSauce.top && rectnullRef.top < rectMain.top) { setCurrent("SauceTab")}
+    else if (rectnullRef.top > rectBun.top  && rectnullRef.top > rectSauce.top && rectnullRef.top < rectMain.top) { setCurrent("MainTab")}
+
+  }
+
+
   
   return (
     data && <>
-    <p className={`${styles.title} text text_type_main-large mt-10 mb-9`} >
+    <p className={`${styles.title} text text_type_main-large mt-10 mb-9`} ref={nullRef}>
       Соберите бургер
     </p>
      <div className={styles.containerTab} name = "IngredientTab">
@@ -63,7 +79,7 @@ export default function BurgerIngredients ({ handleElementClick, OpenIngredientD
     </Tab>
   
   </div>      
-    <div className={styles.scroll}>
+    <div className={styles.scroll} onScroll={OnScroll}>
         <p className={`${styles.title} text text_type_main-medium mt-10`} ref={scollToBun}>
           Булки
         </p>
