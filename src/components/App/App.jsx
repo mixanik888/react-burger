@@ -85,38 +85,37 @@ export default function App () {
     }
 
     return (
-      <div> 
-        {loading && <div>A moment please...</div>}
-        {error && (
-          <div>{`There is a problem fetching the post data - ${error}`}</div>
-        )}
-        {<div className={styles.App}> <HeaderAPPP />   
-        <main className={styles.content}>
-          <section className={styles.ingredients}>
-              <BurgerIngredients
-              handleElementClick={handleElementClick}
-              OpenIngredientDetailsClick={OpenIngredientDetailsClick} />
-          </section>
-          <section className={styles.constructor} >
-            <BurgerConstructor/>
-            <div className={styles.count}>
-              <PriceCount/>
-              <div className={styles.button} >
-                <Button
-                  type="primary" size="large"
-                  htmlType='submit'
-                  onClick={handleOrderToBayClick}>
-                  Оформить заказ
-                </Button>
+    <div> 
+        {<div className={styles.App}> 
+          <HeaderAPPP/>   
+          <main className={styles.content}>
+            <section className={styles.ingredients}>
+                <BurgerIngredients
+                handleElementClick={handleElementClick}
+                OpenIngredientDetailsClick={OpenIngredientDetailsClick} />
+            </section>
+            <section className={styles.constructor} >
+              <BurgerConstructor/>
+              <div className={styles.count}>
+                <PriceCount/>
+                <div className={styles.button} >
+                  <Button
+                    type="primary" size="large"
+                    htmlType='submit'
+                    onClick={handleOrderToBayClick}>
+                    Оформить заказ
+                  </Button>
+                </div>
               </div>
-            </div>
-          </section>
-        </main>
+            </section>
+          </main>
         
-        {isOpen ? 
-        <Modal onClick={closeModal} onClose={closeModal} >{(ActionIngredient !== null) ? <IngredientDetails /> : <OrderDetails />}</Modal>
-        : null }
-    </div>}
+          {isOpen ? 
+          <Modal onClick={closeModal} onClose={closeModal}>
+              {(ActionIngredient !== null) ? <IngredientDetails /> : <OrderDetails />}
+          </Modal>
+          : null }
+      </div>}
     </div>  
     )    
 } 

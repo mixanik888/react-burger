@@ -1,12 +1,30 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styles from './Ingredient.module.css';
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from 'prop-types';
 import { ingredientType } from "../utils/types";
 import { useDrag } from 'react-dnd';
+import { useSelector } from "react-redux";
 
 
 export default function Ingredient({element, OpenIngredientDetailsClick, handleElementClick}) {
+  
+      const data = useSelector(store => store.Burger.Ingredients);
+      const Bun = useSelector(store => store.Burger.bun);
+
+      const countValueItem = useMemo(() => {
+        return data.filter((item) => item._id === element._id).length
+      }, [data, element._id]);
+
+      const countValueBun = useMemo(() => {
+        if (Bun !== null && Bun._id === element._id){
+          return 2
+        }
+      }, [Bun, element._id]);
+    
+      const count = element.type !== 'bun'
+        ? countValueItem
+        : countValueBun;
       
       const [, drag] = useDrag(() => ({
         type: 'ingredient',
@@ -24,9 +42,9 @@ export default function Ingredient({element, OpenIngredientDetailsClick, handleE
 
       return (
         <div key={element._id} className={styles.ingredient} ref={drag}>
-          {element.count > 0 &&
+          {count > 0 &&
             <div className={styles.counter}>
-              <Counter id={element._id} count={element.count} size="default" />
+              <Counter id={element._id} count={count} size="default" />
             </div>}
           <img className={styles.image}
             id={element._id}

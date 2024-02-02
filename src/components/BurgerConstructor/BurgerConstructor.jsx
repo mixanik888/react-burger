@@ -12,11 +12,7 @@ export default function BurgerConstructor() {
   const dataItem = useSelector(store => store.Burger.Ingredients);
   const Bun = useSelector(store => store.Burger.bun);
 
-   const deleteElement = (e) => {
-     dispatch (deleteConstructorItem(e));
-   }
-
-   const [{ canDrop, isOver }, drop] = useDrop(() => ({
+  const [{ canDrop, isOver }, drop] = useDrop(() => ({
     accept: 'ingredient',
     drop: (item) => (addConstructorElement(item.element)),
     collect: (monitor) => ({
@@ -24,7 +20,13 @@ export default function BurgerConstructor() {
       canDrop: monitor.canDrop(),
     }),
   }))
+  
   const isActive = canDrop && isOver
+
+  // const moveElement = React.useCallback((dragIndex, hoverIndex) => {
+  //   //dispatch(moveConstructorItem(dragIndex, hoverIndex))
+  //   console.log(dragIndex,hoverIndex)
+  // }, [])
 
   const addConstructorElement = (element) => {
     if (element.type !== 'bun') {
@@ -33,6 +35,10 @@ export default function BurgerConstructor() {
     else {
       dispatch (addConstructorBun(element));
     }
+  }
+
+  const deleteConstructorElement = (e) => {
+    dispatch (deleteConstructorItem(e));
   }
 
   return (
@@ -58,8 +64,8 @@ export default function BurgerConstructor() {
           :
           dataItem.map((element, index) => {
             return element.type !== 'bun' && 
-              <div  key={element.key} >
-                <DragIcon type="primary" className={styles.drag} />
+              <div  key={element.key}>
+                <DragIcon type="primary" className={styles.drag}/>
                 <ConstructorElement
                   style={{ maxHeight: 80 }}
                   text={element.name}
@@ -67,7 +73,7 @@ export default function BurgerConstructor() {
                   price={element.price}
                   thumbnail={element.image}
                   element={element}
-                  handleClose={ (() => deleteElement(element.key))}
+                  handleClose={ (() => deleteConstructorElement(element.key))}
                 />
               </div>
               
