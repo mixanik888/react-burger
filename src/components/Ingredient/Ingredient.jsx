@@ -3,11 +3,27 @@ import styles from './Ingredient.module.css';
 import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from 'prop-types';
 import { ingredientType } from "../utils/types";
+import { useDrag } from 'react-dnd';
+
 
 export default function Ingredient({element, OpenIngredientDetailsClick, handleElementClick}) {
+      
+      const [, drag] = useDrag(() => ({
+        type: 'ingredient',
+        item: {
+          id: element._id,
+          element,
+          type: element.type,
+        },
+        collect: (monitor) => ({
+          isDragging: monitor.isDragging(),
+          handlerId: monitor.getHandlerId(),
+        }),
+      }))
+      
 
       return (
-        <div key={element._id} className={styles.ingredient}>
+        <div key={element._id} className={styles.ingredient} ref={drag}>
           {element.count > 0 &&
             <div className={styles.counter}>
               <Counter id={element._id} count={element.count} size="default" />

@@ -2,7 +2,9 @@ import React from "react";
 import styles from './BurgerConstructor.module.css';
 import { DragIcon, ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteConstructorItem } from '../services/reducers/ConstructorReducer';
+import { deleteConstructorItem, addConstructorBun, addConstructorItem } from '../services/reducers/ConstructorReducer';
+import { useDrop } from "react-dnd";
+
 
 export default function BurgerConstructor() {
   
@@ -14,13 +16,32 @@ export default function BurgerConstructor() {
      dispatch (deleteConstructorItem(e));
    }
 
+   const [{ canDrop, isOver }, drop] = useDrop(() => ({
+    accept: 'ingredient',
+    drop: (item) => (addConstructorElement(item.element)),
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop(),
+    }),
+  }))
+  const isActive = canDrop && isOver
+
+  const addConstructorElement = (element) => {
+    if (element.type !== 'bun') {
+      dispatch (addConstructorItem(element));
+    } 
+    else {
+      dispatch (addConstructorBun(element));
+    }
+  }
+
   return (
     
-    <div className={styles.container}>
+    <div className={styles.container} ref={drop}>
      
         <div className={styles.top}>
          { (Bun === null)? 
-         <div className={styles.boxTop}></div>
+         <div className={styles.boxTop}>{isActive ? 'Release to drop' : 'Drag a box here'}</div>
          :<div><ConstructorElement
                 type="top"
                 isLocked={true}
@@ -55,7 +76,7 @@ export default function BurgerConstructor() {
        
         <div className={styles.bottom}>
         { (Bun === null)? 
-         <div className={styles.boxBottom}></div>
+         <div className={styles.boxBottom}>{isActive ? 'Release to drop' : 'Drag a box here'}</div>
          :<div><ConstructorElement
             type="bottom" 
             isLocked={true}
