@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './components/App/App';
 import reportWebVitals from './reportWebVitals';
+import { Provider } from 'react-redux';
+import { configureStore } from './components/services/store';
+
+
 
 //**import { compose, createStore } from 'redux';
 //const composeEnhancers =
@@ -10,12 +14,16 @@ import reportWebVitals from './reportWebVitals';
 //    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
 //    : compose; 
 
+const store = configureStore();
+
 const root = ReactDOM.createRoot(
   document.getElementById('root'));
 
   root.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App /> 
+    </Provider>
   </React.StrictMode>
 );
 

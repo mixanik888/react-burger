@@ -3,56 +3,90 @@ import HeaderAPPP from '../AppHeader/Header';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 import PriceCount from '../PriceCount/PriceCount';
-import IngredientDetali from '../Ingredient-detali/Ingredientdetali';
+import IngredientDetails from '../Ingredient-detali/Ingredientdetali';
 import OrderDetails from '../OrderDetali/OrderDetali';
 import Modal from '../Modal/Modal';
 import { Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './App.module.css';
-import getIngredients from '../utils/burger-api';
+import { useDispatch } from 'react-redux';
+import { AddOrder, loadIngredient } from '../services/actions/actions';
+import { useSelector } from 'react-redux';
+import { addConstructorItem, deleteConstructorItem, addConstructorBun, ClearConstructor} from '../services/reducers/ConstructorReducer';
+import { SetActionIngredient } from '../services/reducers/ActionIngredientReducer';
 
 
 export default function App () {
-  const [data, setData] = React.useState([]);
-  const [arr] = React.useState([]);
-  const [, updateState] = React.useState();
-  const forceUpdate = React.useCallback(() => updateState({}), []);
+  const dispatch = useDispatch();
+  const {loading, error, data1}   = useSelector(store => store.Data); 
+  const {ActionIngredient}        = useSelector(store => store.AcIngredient); 
+  const {bun, Ingredients} = useSelector(store => store.Burger);
   const [isOpen, setOpen] = React.useState(false)
-  const [element, setElement] = React.useState({}); 
+  //const [element, setElement] = React.useState({}); 
+  console.log(bun);
 
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState(null);
+  const ingredients = [];
 
   React.useEffect(() => {
-    
-    getIngredients('https://norma.nomoreparties.space/api', setData, setError, setLoading);
-
-    }, []);
-
-  const OpenIngredientDetailsClick = (e, item) => {
-      setElement(item);
-      setOpen(!isOpen);
-    }
+    dispatch(loadIngredient());
+     }, [dispatch]);
+   
   
+  if (loading || data1.length === 0) {
+    return (
+      <h2>Загрузка...</h2>
+    );
+  }
+  
+  if (!loading && error) {
+    return (
+      <h2>error: {error}</h2>
+    );
+  }  
+
+  const deleteElement = (e) => {
+    dispatch (deleteConstructorItem(e));
+  }
+
   const handleElementClick = (e) => {
-    const element = data.find(item => item._id === e.target.id);
-        if (!element.count) {
-          element.count = 0;
-        }
-        if (!arr.find(m => (m.type === 'bun')) || element.type !== 'bun') {
-          element.count = element.count + 1
-          arr.push(element);
-          forceUpdate();
-        }
-        setElement(element);
-      }
+    
+    const element = data1.data.find(item => item._id === e.target.id);
+
+    if (element.type !== 'bun') {
+      dispatch (addConstructorItem(element));
+    } 
+    else {
+      dispatch (addConstructorBun(element));
+    }
+   }
   
   const closeModal = () => {
       setOpen(!isOpen);
     }
   
   const handleOrderToBayClick = () => {
-      setElement(false)
+    
+    if (bun !== null) {
+      
+      ingredients.push(bun._id);
+      
+      for (const item of Ingredients) {ingredients.push(item._id);}
+      
+      ingredients.push(bun._id);
+    
+      dispatch (AddOrder(ingredients));  
+      dispatch (SetActionIngredient(null));
+      dispatch (ClearConstructor());
       setOpen(!isOpen);
+
+    }
+  
+    }
+  
+  const OpenIngredientDetailsClick = (e, item) => {
+    
+      dispatch (SetActionIngredient(item)); 
+      setOpen(!isOpen);
+
     }
 
     return (
@@ -61,17 +95,18 @@ export default function App () {
         {error && (
           <div>{`There is a problem fetching the post data - ${error}`}</div>
         )}
-        {data&& <div className={styles.App}> <HeaderAPPP />   
+        {<div className={styles.App}> <HeaderAPPP />   
         <main className={styles.content}>
           <section className={styles.ingredients}>
-              <BurgerIngredients data={data}
+              <BurgerIngredients
               handleElementClick={handleElementClick}
               OpenIngredientDetailsClick={OpenIngredientDetailsClick} />
           </section>
           <section className={styles.constructor} >
-            <BurgerConstructor data={arr} />
+            <BurgerConstructor 
+            deleteElement={deleteElement}/>
             <div className={styles.count}>
-              <PriceCount data={arr} />
+              <PriceCount/>
               <div className={styles.button} >
                 <Button
                   type="primary" size="large"
@@ -82,11 +117,11 @@ export default function App () {
               </div>
             </div>
           </section>
-      
         </main>
-       
+        
         {isOpen ? <Modal onClick={closeModal} onClose={closeModal} >
-        {element ? <IngredientDetali ingredient={element} /> : <OrderDetails />}
+        {(ActionIngredient !== null) ? <IngredientDetails /> : <OrderDetails />}
+      
       </Modal>
         : null}
     </div>}
