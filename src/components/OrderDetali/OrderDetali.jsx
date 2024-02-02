@@ -9,11 +9,13 @@ export default function OrderDetails() {
 
   if (loading || order === null) {
     return (
-      <h2>Загрузка...</h2>
+      <h2>Заказ обрабатывается...</h2>
     );
   }
 
-  if (!loading && error) {
+  console.log(error);
+
+  if (!loading && error !== null) {
     return (
       <h2>error: {error}</h2>
     );

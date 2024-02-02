@@ -23,7 +23,8 @@ const OrdersSlice = createSlice({
             })
             .addCase(AddOrder.rejected,(state, action)=>{
                 state.loading = false;
-                state.error = action.error.message;
+                console.log(action);
+                state.error = action.error;
             })
     }
 })
