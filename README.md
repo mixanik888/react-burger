@@ -1,7 +1,6 @@
 
 # Необходимые компоненты
-npm install redux react-redux
-npm install @reduxjs/toolkit
+npm install react-redux redux-thunk redux @reduxjs/toolkit react-dnd react-dnd-html5-backend 
 
 
 # Getting Started with Create React App
