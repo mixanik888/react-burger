@@ -25,6 +25,7 @@ const OrdersSlice = createSlice({
                 state.loading = false;
                 console.log(action);
                 state.error = action.error;
+                state.order = null;
             })
     }
 })

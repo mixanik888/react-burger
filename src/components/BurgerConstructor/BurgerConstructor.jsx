@@ -1,9 +1,10 @@
-import React from "react";
+import { useCallback}  from "react";
 import styles from './BurgerConstructor.module.css';
-import { DragIcon, ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
+import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteConstructorItem, addConstructorBun, addConstructorItem } from '../services/reducers/ConstructorReducer';
+import { deleteConstructorItem, addConstructorBun, addConstructorItem, spliceConstructorItem } from '../services/reducers/ConstructorReducer';
 import { useDrop } from "react-dnd";
+import { BurgerElement } from "../BurgerElement/BurgerElement";
 
 
 export default function BurgerConstructor() {
@@ -23,11 +24,6 @@ export default function BurgerConstructor() {
   
   const isActive = canDrop && isOver
 
-  // const moveElement = React.useCallback((dragIndex, hoverIndex) => {
-  //   //dispatch(moveConstructorItem(dragIndex, hoverIndex))
-  //   console.log(dragIndex,hoverIndex)
-  // }, [])
-
   const addConstructorElement = (element) => {
     if (element.type !== 'bun') {
       dispatch (addConstructorItem(element));
@@ -40,6 +36,13 @@ export default function BurgerConstructor() {
   const deleteConstructorElement = (e) => {
     dispatch (deleteConstructorItem(e));
   }
+
+  const moveElement = useCallback((dragIndex, hoverIndex) => {
+    console.log(dragIndex, hoverIndex)
+    dispatch (spliceConstructorItem( {dragIndex : {dragIndex}, hoverIndex : {hoverIndex}}))
+
+    },[dispatch])
+
 
   return (
     
@@ -65,16 +68,16 @@ export default function BurgerConstructor() {
           dataItem.map((element, index) => {
             return element.type !== 'bun' && 
               <div  key={element.key}>
-                <DragIcon type="primary" className={styles.drag}/>
-                <ConstructorElement
-                  style={{ maxHeight: 80 }}
-                  text={element.name}
-                  key={element.key}
-                  price={element.price}
-                  thumbnail={element.image}
-                  element={element}
-                  handleClose={ (() => deleteConstructorElement(element.key))}
-                />
+                
+                <BurgerElement
+                    key={element.key}
+                    index={index}
+                    id={element.key}
+                    element={element}
+                    moveElement={moveElement}
+                    deleteConstructorElement={deleteConstructorElement}
+                  />
+        
               </div>
               
           })}
