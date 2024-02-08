@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 import { DragIcon, ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from 'prop-types';
 
 export const BurgerElement = ({ id, element, index, moveElement, deleteConstructorElement }) => {
   const ref = useRef(null)
@@ -61,3 +62,8 @@ export const BurgerElement = ({ id, element, index, moveElement, deleteConstruct
     </div>
   )
 }
+
+BurgerElement.propTypes = {
+    moveElement: PropTypes.func.isRequired,
+    deleteConstructorElement: PropTypes.func.isRequired
+  }

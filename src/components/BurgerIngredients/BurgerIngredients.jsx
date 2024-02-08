@@ -9,11 +9,11 @@ export default function BurgerIngredients ({ handleElementClick, OpenIngredientD
   const [current, setCurrent] = React.useState('BunTab');
   const data = useSelector(store => store.Data.data1.data);   
 
-  const scollToBun    = useRef();
-  const scollToSauce  = useRef();
-  const scollToMain   = useRef();
+  const scrollToBun    = useRef();
+  const scrollToSauce  = useRef();
+  const scrollToMain   = useRef();
   
-  const nullRef   = useRef();
+  const scrollNullRef   = useRef();
   
   const buns = React.useMemo (() => 
     data.filter(item => item.type === 'bun'), [data]);
@@ -29,32 +29,32 @@ export default function BurgerIngredients ({ handleElementClick, OpenIngredientD
     
     if (e === "BunTab") {
       setCurrent(e);
-      scollToBun.current.scrollIntoView();
+      scrollToBun.current.scrollIntoView();
     }
 
     if (e === "SauceTab") {
       setCurrent(e);
-      scollToSauce.current.scrollIntoView();
+      scrollToSauce.current.scrollIntoView();
     }
 
     if (e === "MainTab") {
       setCurrent(e);
-      scollToMain.current.scrollIntoView();
+      scrollToMain.current.scrollIntoView();
     }
     
   }  
  
   const OnScroll = (e) =>  {
 
-    const rectBun     = scollToBun.current.getBoundingClientRect();
-    const rectSauce   = scollToSauce.current.getBoundingClientRect();
-    const rectMain    = scollToMain.current.getBoundingClientRect();
+    const rectBun     = scrollToBun.current.getBoundingClientRect();
+    const rectSauce   = scrollToSauce.current.getBoundingClientRect();
+    const rectMain    = scrollToMain.current.getBoundingClientRect();
    
-    const rectnullRef    = nullRef.current.getBoundingClientRect();
+    const nullRef    = scrollNullRef.current.getBoundingClientRect();
    
-    if ( rectnullRef.top < rectBun.top  && rectnullRef.top < rectSauce.top && rectnullRef.top < rectMain.top)  { setCurrent("BunTab")}
-    else if (rectnullRef.top > rectBun.top  && rectnullRef.top < rectSauce.top && rectnullRef.top < rectMain.top) { setCurrent("SauceTab")}
-    else if (rectnullRef.top > rectBun.top  && rectnullRef.top > rectSauce.top && rectnullRef.top < rectMain.top) { setCurrent("MainTab")}
+    if ( nullRef.top < rectBun.top  && nullRef.top < rectSauce.top && nullRef.top < rectMain.top)  { setCurrent("BunTab")}
+    else if (nullRef.top > rectBun.top  && nullRef.top < rectSauce.top && nullRef.top < rectMain.top) { setCurrent("SauceTab")}
+    else if (nullRef.top > rectBun.top  && nullRef.top > rectSauce.top && nullRef.top < rectMain.top) { setCurrent("MainTab")}
    
   }
 
@@ -62,7 +62,7 @@ export default function BurgerIngredients ({ handleElementClick, OpenIngredientD
   
   return (
     data && <>
-    <p className={`${styles.title} text text_type_main-large mt-10 mb-9`} ref={nullRef}>
+    <p className={`${styles.title} text text_type_main-large mt-10 mb-9`} ref={scrollNullRef}>
       Соберите бургер
     </p>
      <div className={styles.containerTab} name = "IngredientTab">
@@ -78,7 +78,7 @@ export default function BurgerIngredients ({ handleElementClick, OpenIngredientD
   
   </div>      
     <div className={styles.scroll} onScroll={OnScroll}>
-        <p className={`${styles.title} text text_type_main-medium mt-10`} ref={scollToBun}>
+        <p className={`${styles.title} text text_type_main-medium mt-10`} ref={scrollToBun}>
           Булки
         </p>
           <div className={styles.buns}>
@@ -88,7 +88,7 @@ export default function BurgerIngredients ({ handleElementClick, OpenIngredientD
               OpenIngredientDetailsClick={OpenIngredientDetailsClick}
               handleElementClick={handleElementClick}/>})}
           </div>
-        <p className={`${styles.title} text text_type_main-medium mt-10`} ref={scollToSauce}>
+        <p className={`${styles.title} text text_type_main-medium mt-10`} ref={scrollToSauce}>
           Соусы
         </p>
           <div className={styles.sauces}>
@@ -98,7 +98,7 @@ export default function BurgerIngredients ({ handleElementClick, OpenIngredientD
               OpenIngredientDetailsClick={OpenIngredientDetailsClick}
               handleElementClick={handleElementClick}/>})}
           </div>
-        <p className={`${styles.title} text text_type_main-medium mt-10`} ref={scollToMain}>
+        <p className={`${styles.title} text text_type_main-medium mt-10`} ref={scrollToMain}>
           Начинки
         </p>
         <div className={styles.mains}>

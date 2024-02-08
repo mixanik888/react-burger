@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  max-width: 1920px;
+  max-width: 1820px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -12,7 +12,7 @@
   height: 1212px;
   flex-direction: column;
   display: flex;
-  margin-right: 41px;
+  margin-right: 51px;
 }
 
 .constructor {
