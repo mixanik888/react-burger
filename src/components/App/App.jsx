@@ -1,121 +1,112 @@
-import React from 'react';
-import HeaderAPPP from '../AppHeader/Header';
-import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
-import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
-import PriceCount from '../PriceCount/PriceCount';
-import IngredientDetails from '../Ingredient-detali/Ingredientdetali';
-import OrderDetails from '../OrderDetali/OrderDetali';
-import Modal from '../Modal/Modal';
-import { Button} from '@ya.praktikum/react-developer-burger-ui-components';
-import styles from './App.module.css';
-import { useDispatch } from 'react-redux';
-import { AddOrder, loadIngredient } from '../services/actions/actions';
-import { useSelector } from 'react-redux';
-import { addConstructorItem, addConstructorBun, ClearConstructor} from '../services/reducers/ConstructorReducer';
-import { SetActionIngredient } from '../services/reducers/ActionIngredientReducer';
+import React from "react";
+import styles from "./App.module.css";
+import AppHeader from "../AppHeader/Header";
+import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
+import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
+import IngredientDetails from "../Ingredientdetails/Ingredientdetails";
+import OrderDetails from "../OrderDetails/OrderDetails";
+import Modal from "../Modal/Modal";
 
+import { useDispatch } from "react-redux";
+import { addOrder, loadIngredient } from "../../services/actions/actions";
+import { useSelector } from "react-redux";
+import {
+  addConstructorItem,
+  addConstructorBun,
+  clearConstructor,
+} from "../../services/reducers/constructorReducer";
+import { setActionIngredient } from "../../services/reducers/actionIngredientReducer";
 
-export default function App () {
+export default function App() {
   const dispatch = useDispatch();
-  
-  const {loading, error, data1}   = useSelector(store => store.Data); 
-  const {ActionIngredient}        = useSelector(store => store.AcIngredient); 
-  const {bun, Ingredients} = useSelector(store => store.Burger);
-  
-  const [isOpen, setOpen] = React.useState(false)
- 
-  const ingredients = [];
+
+  const { loading, error, data1 } = useSelector((store) => store.data);
+  const { actionIngredient } = useSelector((store) => store.acIngredient);
+  const { bun, ingredients } = useSelector((store) => store.burger);
+
+  const [isOpen, setOpen] = React.useState(false);
+
+  const ingredientsList = [];
 
   React.useEffect(() => {
     dispatch(loadIngredient());
-     }, [dispatch]);
-   
-  
+  }, [dispatch]);
+
   if (loading || data1.length === 0) {
-    return (
-      <h2>Загрузка...</h2>
-    );
+    return <h2>Загрузка...</h2>;
   }
-  
+
   if (!loading && error) {
-    return (
-      <h2>error: {error}</h2>
-    );
-  }  
+    return <h2>error: {error}</h2>;
+  }
 
   const handleElementClick = (e) => {
-    
-    const element = data1.data.find(item => item._id === e.target.id);
+    const element = data1.data.find((item) => item._id === e.target.id);
 
-    if (element.type !== 'bun') {
-      dispatch (addConstructorItem(element));
-    } 
-    else {
-      dispatch (addConstructorBun(element));
+    if (element.type !== "bun") {
+      dispatch(addConstructorItem(element));
+    } else {
+      dispatch(addConstructorBun(element));
     }
-   }
-  
+  };
+
   const closeModal = () => {
-      setOpen(!isOpen);
-    }
-  
+    setOpen(!isOpen);
+  };
+
   const handleOrderToBayClick = () => {
-    
     if (bun !== null) {
-      
-      ingredients.push(bun._id);
-      
-      for (const item of Ingredients) {ingredients.push(item._id);}
-      
-      ingredients.push(bun._id);
-    
-      dispatch (AddOrder(ingredients));  
-      dispatch (SetActionIngredient(null));
-      dispatch (ClearConstructor());
+     
+      ingredientsList.push(bun._id);
+
+      for (const item of ingredients) {
+        ingredientsList.push(item._id);
+      }
+
+      ingredientsList.push(bun._id);
+
+      dispatch(addOrder(ingredientsList));
+      dispatch(setActionIngredient(null));
+      dispatch(clearConstructor());
       setOpen(!isOpen);
     }
-    
-  }
-  
-  const OpenIngredientDetailsClick = (e, item) => {
-    
-      dispatch (SetActionIngredient(item)); 
-      setOpen(!isOpen);
+  };
 
-    }
+  const openIngredientDetailsClick = (e, item) => {
+    dispatch(setActionIngredient(item));
+    setOpen(!isOpen);
+  };
 
-    return (
-    <div> 
-        {<div className={styles.App}> 
-          <HeaderAPPP/>   
+  return (
+    <div>
+      {
+        <div className={styles.App}>
+          <AppHeader />
           <main className={styles.content}>
             <section className={styles.ingredients}>
-                <BurgerIngredients
+              <BurgerIngredients
                 handleElementClick={handleElementClick}
-                OpenIngredientDetailsClick={OpenIngredientDetailsClick} />
+                openIngredientDetailsClick={openIngredientDetailsClick}
+              />
             </section>
-            <section className={styles.constructor} >
-              <BurgerConstructor/>
-              <div className={styles.count}>
-                <PriceCount/>
-                <div className={styles.button} >
-                  <Button
-                    type="primary" size="large"
-                    htmlType='submit'
-                    onClick={handleOrderToBayClick}>
-                    Оформить заказ
-                  </Button>
-                </div>
-              </div>
+            <section className={styles.constructor}>
+              <BurgerConstructor
+                handleOrderToBayClick={handleOrderToBayClick}
+              />
             </section>
           </main>
-        
-          {isOpen ? 
-          <Modal onClick={closeModal} onClose={closeModal}>
-              {(ActionIngredient !== null) ? <IngredientDetails /> : <OrderDetails />}
-          </Modal>
-          : null }
-      </div>}
-    </div>  
-    )    
-} 
+
+          {isOpen ? (
+            <Modal onClose={closeModal}>
+              {actionIngredient !== null ? (
+                <IngredientDetails />
+              ) : (
+                <OrderDetails />
+              )}
+            </Modal>
+          ) : null}
+        </div>
+      }
+    </div>
+  );
+}

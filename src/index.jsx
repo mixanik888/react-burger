@@ -1,23 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './components/App/App';
-import reportWebVitals from './reportWebVitals';
-import { Provider } from 'react-redux';
-import { configureStore } from './components/services/store';
-import { HTML5Backend } from 'react-dnd-html5-backend'
-import { DndProvider } from 'react-dnd';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./components/App/App";
+import reportWebVitals from "./reportWebVitals";
+import { Provider } from "react-redux";
+import { configureStore } from "../src/services/store";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { DndProvider } from "react-dnd";
 
 const store = configureStore();
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 
-  root.render(
+root.render(
   <React.StrictMode>
-    <Provider  store={store}>
+    <Provider store={store}>
       <DndProvider backend={HTML5Backend}>
-        <App /> 
+        <App />
       </DndProvider>
     </Provider>
   </React.StrictMode>
