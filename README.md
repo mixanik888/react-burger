@@ -1,3 +1,8 @@
+
+# Необходимые компоненты
+npm install react-redux redux-thunk redux @reduxjs/toolkit react-dnd react-dnd-html5-backend 
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

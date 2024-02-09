@@ -1,5 +1,5 @@
 .container {
-  width: 568x;
+  width: 468x;
   flex-direction: column;
   display: flex;
   height: 756px;
@@ -44,6 +44,7 @@
   cursor: grab;
   transition: all .1s ease-in;
   cursor: grab;
+  
 }
 
 .drag:hover {
@@ -56,7 +57,7 @@
     display: inline-block;
     border-radius: var(--common-border-radius-s);
     background: var(--background-element);
-    max-width: 536px;
+    max-width: 436px;
     width: 100%;
     min-height: 80px;
     font-family: 'Jet Brains Mono';
@@ -73,7 +74,7 @@
 display: inline-block;
 border-radius: var(--top-constructor-item-border-radius);
 background: var(--background-element);
-max-width: 536px;
+max-width: 436px;
 width: 100%;
 min-height: 80px;
 font-family: 'Jet Brains Mono';
@@ -101,17 +102,4 @@ color: #F2F2F3;
 flex-grow: 1;
 box-sizing: border-box;
 
-}
-
-.count {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  margin-top: 38px;
-  margin-right: 15px;
-}
-
-.button {
-  width: 215px;
-  align-self: end;
 }

@@ -1,96 +1,112 @@
-import React from 'react';
-import HeaderAPPP from '../AppHeader/Header';
-import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
-import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
-import PriceCount from '../PriceCount/PriceCount';
-import IngredientDetali from '../Ingredient-detali/Ingredientdetali';
-import OrderDetails from '../OrderDetali/OrderDetali';
-import Modal from '../Modal/Modal';
-import { Button} from '@ya.praktikum/react-developer-burger-ui-components';
-import styles from './App.module.css';
-import getIngredients from '../utils/burger-api';
+import React from "react";
+import styles from "./App.module.css";
+import AppHeader from "../AppHeader/Header";
+import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
+import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
+import IngredientDetails from "../Ingredientdetails/Ingredientdetails";
+import OrderDetails from "../OrderDetails/OrderDetails";
+import Modal from "../Modal/Modal";
 
+import { useDispatch } from "react-redux";
+import { addOrder, loadIngredient } from "../../services/actions/actions";
+import { useSelector } from "react-redux";
+import {
+  addConstructorItem,
+  addConstructorBun,
+  clearConstructor,
+} from "../../services/reducers/constructorReducer";
+import { setActionIngredient } from "../../services/reducers/actionIngredientReducer";
 
+export default function App() {
+  const dispatch = useDispatch();
 
-export default function App () {
-  const [data, setData] = React.useState([]);
-  const [arr] = React.useState([]);
-  const [, updateState] = React.useState();
-  const forceUpdate = React.useCallback(() => updateState({}), []);
-  const [isOpen, setOpen] = React.useState(false)
-  const [element, setElement] = React.useState({}); 
+  const { loading, error, data1 } = useSelector((store) => store.data);
+  const { actionIngredient } = useSelector((store) => store.acIngredient);
+  const { bun, ingredients } = useSelector((store) => store.burger);
 
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState(null);
+  const [isOpen, setOpen] = React.useState(false);
+
+  const ingredientsList = [];
 
   React.useEffect(() => {
-    
-    getIngredients('https://norma.nomoreparties.space/api', setData, setError, setLoading);
+    dispatch(loadIngredient());
+  }, [dispatch]);
 
-    }, []);
+  if (loading || data1.length === 0) {
+    return <h2>Загрузка...</h2>;
+  }
 
-  const OpenIngredientDetailsClick = (e, item) => {
-      setElement(item);
-      setOpen(!isOpen);
-    }
-  
+  if (!loading && error) {
+    return <h2>error: {error}</h2>;
+  }
+
   const handleElementClick = (e) => {
-    const element = data.find(item => item._id === e.target.id);
-        if (!element.count) {
-          element.count = 0;
-        }
-        if (!arr.find(m => (m.type === 'bun')) || element.type !== 'bun') {
-          element.count = element.count + 1
-          arr.push(element);
-          forceUpdate();
-        }
-        setElement(element);
-      }
-  
-  const closeModal = () => {
-      setOpen(!isOpen);
-    }
-  
-  const handleOrderToBayClick = () => {
-      setElement(false)
-      setOpen(!isOpen);
-    }
+    const element = data1.data.find((item) => item._id === e.target.id);
 
-    return (
-      <div> 
-        {loading && <div>A moment please...</div>}
-        {error && (
-          <div>{`There is a problem fetching the post data - ${error}`}</div>
-        )}
-        {data&& <div className={styles.App}> <HeaderAPPP />   
-        <main className={styles.content}>
-          <section className={styles.ingredients}>
-              <BurgerIngredients data={data}
-              handleElementClick={handleElementClick}
-              OpenIngredientDetailsClick={OpenIngredientDetailsClick} />
-          </section>
-          <section className={styles.constructor} >
-            <BurgerConstructor data={arr} />
-            <div className={styles.count}>
-              <PriceCount data={arr} />
-              <div className={styles.button} >
-                <Button
-                  type="primary" size="large"
-                  htmlType='submit'
-                  onClick={handleOrderToBayClick}>
-                  Оформить заказ
-                </Button>
-              </div>
-            </div>
-          </section>
-      
-        </main>
-       
-        {isOpen ? <Modal onClick={closeModal} onClose={closeModal} >
-        {element ? <IngredientDetali ingredient={element} /> : <OrderDetails />}
-      </Modal>
-        : null}
-    </div>}
-    </div>  
-    )    
-} 
+    if (element.type !== "bun") {
+      dispatch(addConstructorItem(element));
+    } else {
+      dispatch(addConstructorBun(element));
+    }
+  };
+
+  const closeModal = () => {
+    setOpen(!isOpen);
+  };
+
+  const handleOrderToBayClick = () => {
+    if (bun !== null) {
+     
+      ingredientsList.push(bun._id);
+
+      for (const item of ingredients) {
+        ingredientsList.push(item._id);
+      }
+
+      ingredientsList.push(bun._id);
+
+      dispatch(addOrder(ingredientsList));
+      dispatch(setActionIngredient(null));
+      dispatch(clearConstructor());
+      setOpen(!isOpen);
+    }
+  };
+
+  const openIngredientDetailsClick = (e, item) => {
+    dispatch(setActionIngredient(item));
+    setOpen(!isOpen);
+  };
+
+  return (
+    <div>
+      {
+        <div className={styles.App}>
+          <AppHeader />
+          <main className={styles.content}>
+            <section className={styles.ingredients}>
+              <BurgerIngredients
+                handleElementClick={handleElementClick}
+                openIngredientDetailsClick={openIngredientDetailsClick}
+              />
+            </section>
+            <section className={styles.constructor}>
+              <BurgerConstructor
+                handleOrderToBayClick={handleOrderToBayClick}
+              />
+            </section>
+          </main>
+
+          {isOpen ? (
+            <Modal onClose={closeModal}>
+              {actionIngredient !== null ? (
+                <IngredientDetails />
+              ) : (
+                <OrderDetails />
+              )}
+            </Modal>
+          ) : null}
+        </div>
+      }
+    </div>
+  );
+}
