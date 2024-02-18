@@ -1,8 +1,6 @@
 import React from "react";
 import styles from "./App.module.css";
 import AppHeader from "../AppHeader/Header";
-import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
-import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import IngredientDetails from "../Ingredientdetails/Ingredientdetails";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import Modal from "../Modal/Modal";
@@ -16,6 +14,11 @@ import {
   clearConstructor,
 } from "../../services/reducers/constructorReducer";
 import { setActionIngredient } from "../../services/reducers/actionIngredientReducer";
+import HomeBurger from "../../pages/Home";
+import NotFound404 from "../../pages/Not-found";
+import Login from "../../pages/Login";
+
+import { Routes, Route } from 'react-router-dom';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -82,19 +85,15 @@ export default function App() {
       {
         <div className={styles.App}>
           <AppHeader />
-          <main className={styles.content}>
-            <section className={styles.ingredients}>
-              <BurgerIngredients
+          <Routes>
+              <Route path="/" element={<HomeBurger
                 handleElementClick={handleElementClick}
                 openIngredientDetailsClick={openIngredientDetailsClick}
-              />
-            </section>
-            <section className={styles.constructor}>
-              <BurgerConstructor
                 handleOrderToBayClick={handleOrderToBayClick}
-              />
-            </section>
-          </main>
+              />} /> 
+              <Route path="/Login" element={<Login  />} /> 
+              <Route path="*" element={<NotFound404 />} />
+          </Routes>
 
           {isOpen ? (
             <Modal onClose={closeModal}>
