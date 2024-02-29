@@ -1,20 +1,9 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import styles from './Not-found.module.css';
+import NotFound404 from "../components/NotFound/Not-found";
 
-export default function NotFound404() {
-
+export default function NotFound404Page() {
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.container}>
-        <div className={styles.content}>
-          <h1>Oops! 404 Error</h1>
-          <p>The page you requested does not exist</p>
-          <br />
-          <br />
-          <p>check the address or try <Link to='/' className={styles.link}>Конструктор</Link></p>
-        </div>
-      </div>
-    </div>
+    <main>
+      <NotFound404 />
+    </main>
   );
 }

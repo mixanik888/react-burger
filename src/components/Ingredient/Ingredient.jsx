@@ -8,6 +8,8 @@ import PropTypes from "prop-types";
 import { ingredientType } from "../../utils/types";
 import { useDrag } from "react-dnd";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router";
+import { Link } from "react-router-dom";
 
 export default function Ingredient({
   element,
@@ -15,6 +17,9 @@ export default function Ingredient({
   handleElementClick,
 }) {
   const { bun, ingredients } = useSelector((store) => store.burger);
+
+  const location = useLocation();
+  const ingId = element['_id'];
 
   const countValueItem = useMemo(() => {
     return ingredients.filter((item) => item._id === element._id).length;
@@ -48,13 +53,19 @@ export default function Ingredient({
           <Counter id={element._id} count={count} size="default" />
         </div>
       )}
+      <Link
+      key={ingId}
+      to={`/ingredients/${ingId}`}
+      state={{ background: location }}
+      className={styles.link}
+      >
       <img
         className={styles.image}
         id={element._id}
         src={element.image}
         alt={element.name}
-        onClick={(e) => openIngredientDetailsClick(e, element)}
       />
+      </Link>
       <div className={styles.price}>
         <p className="text text_type_digits-default mr-2">{element.price}</p>
         <CurrencyIcon type="primary" />
@@ -72,6 +83,5 @@ export default function Ingredient({
 
 Ingredient.propTypes = {
   element: ingredientType,
-  openIngredientDetailsClick: PropTypes.func.isRequired,
   handleElementClick: PropTypes.func.isRequired,
 };

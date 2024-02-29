@@ -2,9 +2,19 @@ import React from "react";
 import styles from "./Ingredientdetails.module.css";
 //import { ingredientType } from "../utils/types";
 import { useSelector } from "react-redux";
+import { useLocation, useParams } from "react-router-dom";
 
 export default function IngredientDetails() {
-  const { actionIngredient } = useSelector((store) => store.acIngredient);
+  let { ingId } = useParams();
+
+  const data = useSelector((store) => store.data.data1.data);
+
+  const actionIngredient = React.useMemo(
+    () => data.filter((item) => item._id === ingId),
+    [data]
+  );
+
+  if (actionIngredient.length === 0) return null;
 
   return (
     <div className={styles.ingredient}>
@@ -13,9 +23,9 @@ export default function IngredientDetails() {
       </h2>
       <img
         className={styles.image}
-        id={actionIngredient._id}
-        src={actionIngredient.image_large}
-        alt={actionIngredient.name}
+        id={actionIngredient[0]._id}
+        src={actionIngredient[0].image_large}
+        alt={actionIngredient[0].name}
       />
       <h3 className={`${styles.title} text text_type_main-medium`}>
         {actionIngredient.name}
@@ -25,11 +35,16 @@ export default function IngredientDetails() {
         <p className="text text_type_main-small">Белки, г</p>
         <p className="text text_type_main-small">Жиры, г</p>
         <p className="text text_type_main-small">Углеводы, г</p>
-        <p className="text text_type_main-small">{actionIngredient.calories}</p>
-        <p className="text text_type_main-small">{actionIngredient.proteins}</p>
-        <p className="text text_type_main-small">{actionIngredient.fat}</p>
         <p className="text text_type_main-small">
-          {actionIngredient.carbohydrates}
+          {actionIngredient[0].calories}
+        </p>
+        <p className="text text_type_main-small">
+          {actionIngredient[0].proteins}
+        </p>
+        <p className="text text_type_main-small">
+          {actionIngredient[0].fat}</p>
+        <p className="text text_type_main-small">
+          {actionIngredient[0].carbohydrates}
         </p>
       </div>
     </div>
