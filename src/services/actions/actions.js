@@ -20,6 +20,8 @@ export const addOrder = createAsyncThunk(
   async (ingredients) => {
     let json = JSON.stringify({ ingredients });
 
+    console.log (ApiConfig.headers)
+
     return fetchWithRefresh(`${ApiConfig.baseURL}/orders`, {
       method: "POST",
       headers: ApiConfig.headers,

@@ -1,8 +1,8 @@
 export const ApiConfig = {
   baseURL: "https://norma.nomoreparties.space/api",
   headers: {
-    'Content-Type': 'application/json;charset=utf-8',
-     authorization: localStorage.getItem('accessToken')
+     "Content-Type": 'application/json;charset=utf-8',
+     "authorization": localStorage.getItem('accessToken')
   },
 };
 
