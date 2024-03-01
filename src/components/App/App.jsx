@@ -75,7 +75,7 @@ export default function App() {
             <Route path="/ingredients/:ingId" element={<IngredientDetails />} />
            
             <Route path="/login" element={<OnlyUnAutch1 component={<Login />} />} />
-            <Route path="/listOrder" element={<OnlyUnAutch1 component={<ListOrderPage />}/>} />
+            <Route path="/listOrder" element={<ListOrderPage />} />
             <Route path="/register" element={<OnlyUnAutch1 component={<RegisterPage />}/>} />
             <Route path="/forgot-password" element={<OnlyUnAutch1 component={<ForgotPasswordPage  />} />} />
             <Route path="/reset-password" element={<OnlyUnAutch1 component={<ResetPasswordPage  />} />} />
