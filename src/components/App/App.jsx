@@ -6,7 +6,7 @@ import IngredientDetails from "../Ingredientdetails/Ingredientdetails";
 import Modal from "../Modal/Modal";
 
 import { useDispatch, useSelector } from "react-redux";
-import { loadIngredient } from "../../services/actions/actions";
+import { loadIngredient, setUser } from "../../services/actions/actions";
 
 import {
   addConstructorItem,
@@ -37,6 +37,7 @@ export default function App() {
 
   React.useEffect(() => {
     dispatch(loadIngredient());
+    dispatch(setUser());
   }, [dispatch]);
 
   if (loading || data1.length === 0) {

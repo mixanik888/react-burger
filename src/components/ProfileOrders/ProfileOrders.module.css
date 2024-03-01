@@ -1,34 +1,24 @@
-.wrapper {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: baseline;
-  margin: 0 auto;
+.title {
+  margin-top: 0px;
 }
 
-ul {
+.main {
   display: flex;
   flex-direction: column;
-  list-style-type: none;
+  align-items: center;
+  justify-content: center;
 }
 
-li a {
-  display: block;
+.text {
+  color: #8585AD;
+}
 
-  padding: 8px 16px;
+.link {
   text-decoration: none;
+  color: #4C4CFF;
+  transition: cubic-bezier(0.215, 0.610, 0.355, 1);
 }
 
-li a:hover {
-  transition: 0.2s ease-in-out;
-  color: #f2f2f3;
-}
-
-.active {
-  transition: 0.2s ease-in-out;
-  color: #f2f2f3;
-}
-
-.active:hover {
-  color: #8585ad;
-  cursor: pointer;
+.link:hover {
+  opacity: .7;
 }

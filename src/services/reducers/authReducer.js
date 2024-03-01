@@ -1,13 +1,24 @@
-import { createSlice} from "@reduxjs/toolkit";
-import { singIn, userRegister, signOut, userProfile, setName, setPassword, setEmail, callEmailToForget, setToken, callResetPassword } from "../actions/actions";
-
+import { createSlice } from "@reduxjs/toolkit";
+import {
+  singIn,
+  userRegister,
+  signOut,
+  userProfile,
+  setName,
+  setPassword,
+  setEmail,
+  callEmailToForget,
+  setToken,
+  callResetPassword,
+  setUser,
+} from "../actions/actions";
 
 const initialState = {
   loading: false,
   error: null,
   name: "",
-  password: "", 
-  email: "", 
+  password: "",
+  email: "",
   isSetUser: false,
   callEmailForgot: false,
   token: "",
@@ -19,10 +30,8 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(userProfile.fulfilled, (state, action) => {
-      
         state.name = action.payload.user.name;
         state.email = action.payload.user.email;
-
       })
       .addCase(signOut.pending, (state) => {
         state.loading = true;
@@ -36,7 +45,6 @@ const authSlice = createSlice({
 
         localStorage.setItem("refreshToken", "");
         localStorage.setItem("accessToken", "");
-
       })
       .addCase(signOut.rejected, (state, action) => {
         state.loading = false;
@@ -76,46 +84,61 @@ const authSlice = createSlice({
         state.error = action.error.message;
         state.isSetUser = false;
       })
-      .addCase(setName,  (state, action) => {
+      .addCase(setName, (state, action) => {
         state.name = action.payload;
       })
-      .addCase(setPassword,  (state, action) => {
+      .addCase(setPassword, (state, action) => {
         state.password = action.payload;
       })
-      .addCase(setEmail,  (state, action) => {
+      .addCase(setEmail, (state, action) => {
         state.email = action.payload;
       })
-      .addCase(setToken,  (state, action) => {
+      .addCase(setToken, (state, action) => {
         state.token = action.payload;
       })
-      .addCase(callEmailToForget.fulfilled,  (state, action) => {
+      .addCase(callEmailToForget.fulfilled, (state, action) => {
         state.loading = false;
         state.callEmailForgot = true;
       })
-      .addCase(callEmailToForget.pending,  (state, action) => {
+      .addCase(callEmailToForget.pending, (state, action) => {
         state.loading = true;
         state.callEmailForgot = false;
       })
-      .addCase(callEmailToForget.rejected,  (state, action) => {
+      .addCase(callEmailToForget.rejected, (state, action) => {
         state.loading = false;
         state.callEmailForgot = false;
         state.error = action.error.message;
       })
-      .addCase(callResetPassword.fulfilled,  (state, action) => {
+      .addCase(callResetPassword.fulfilled, (state, action) => {
         state.loading = false;
         state.callEmailForgot = false;
         state.password = "";
       })
-      .addCase(callResetPassword.pending,  (state, action) => {
+      .addCase(callResetPassword.pending, (state, action) => {
         state.loading = true;
-
       })
-      .addCase(callResetPassword.rejected,  (state, action) => {
+      .addCase(callResetPassword.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })
+      .addCase(setUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.name = action.payload.user.name;
+        state.password = "";
+        state.email = action.payload.user.email;
+        state.isSetUser = true;
+      })
+      .addCase(setUser.pending, (state, action) => {
+        state.loading = true;
+        state.error = null;
+        state.isSetUser = false;
+      })
+      .addCase(setUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+        state.isSetUser = false;
+      });
   },
 });
 
 export const reducer = authSlice.reducer;
-

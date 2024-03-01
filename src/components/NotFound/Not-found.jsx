@@ -5,21 +5,25 @@ import styles from "./Not-found.module.css";
 
 export default function NotFound404() {
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.container}>
-        <div className={styles.content}>
-          <h1>Oops! 404 Error</h1>
+    <main className={styles.main}>
+      <form className={styles.main}>
+        <h3 className={`${styles.title} text text_type_main-medium`}>
+          Oops! 404 Error
+      </h3>
           <p>The page you requested does not exist</p>
           <br />
           <br />
-          <p>
-            check the address or try{" "}
-            <Link to="/" className={styles.link}>
-              Конструктор
-            </Link>
-          </p>
-        </div>
-      </div>
-    </div>
+       
+           
+          <p className={`${styles.text} text text_type_main-default mt-20 mb-4`}>
+          check the address or try?
+          <Link to="/" className={`${styles.link} ml-2`}>
+          Конструктор
+          </Link>
+        </p>
+      </form>
+    </main>
+
+
   );
 }

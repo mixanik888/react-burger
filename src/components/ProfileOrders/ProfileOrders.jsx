@@ -2,13 +2,13 @@ import React from "react";
 import styles from "./ProfileOrders.module.css";
 
 export default function ProfileOrders() {
-
-  
-    return (
-        <div className={styles.wrapper}>
-          <div className={styles.container}>
-              Здесь будет история заказа
-          </div>
-        </div> 
-     )
-   }
+  return (
+    <main className={styles.section}>
+      <form className={styles.section}>
+      <h3 className={`${styles.title} text text_type_main-medium`}>
+        Здесь будет история заказа
+      </h3>
+      </form>
+    </main>
+  );
+}

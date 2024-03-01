@@ -29,15 +29,12 @@ export default function Profile() {
   };
 
   const handleClickCommit = (e) => {
-
     if ("" !== valuePasswords) {
       //dispatch(userProfile({ name : valueName, email : valueEmail, password : valuePasswords}))
-      dispatch(userProfile({ name : valueName, email : valueEmail}))
+      dispatch(userProfile({ name: valueName, email: valueEmail }));
+    } else {
+      dispatch(userProfile({ name: valueName, email: valueEmail }));
     }
-    else {
-      dispatch(userProfile({ name : valueName, email : valueEmail}))
-    }
-    
   };
 
   const onChange1 = (e) => {
@@ -59,12 +56,9 @@ export default function Profile() {
   // };
 
   return (
-    <div className={styles.wrapper}>
-      <div
-        className={styles.container}
-        style={{ display: "flex", flexDirection: "column", padding: "100px" }}
-      >
-        <div style={{ padding: "12px" }}>
+    <main className={styles.section}>
+      <form className={styles.section} onSubmit={handleClickCommit}>
+        <div className="mt-6 mb-6">
           <Input
             onChange={onChange1}
             //onIconClick={onIconClickName}
@@ -72,10 +66,9 @@ export default function Profile() {
             placeholder={"Имя"}
             type={"text"}
             icon="EditIcon"
-        
+            extraClass="mb-2"
           />
-        </div>
-        <div style={{ padding: "12px" }}>
+
           <EmailInput
             onChange={onChange2}
             //onIconClick={onIconClickEmail}
@@ -83,41 +76,39 @@ export default function Profile() {
             placeholder={"Логин"}
             name={"email"}
             icon="EditIcon"
+            extraClass="mb-2"
           />
-        </div>
-        <div style={{ padding: "12px" }}>
+
           <PasswordInput
             onChange={onChange3}
             value={valuePasswords}
             placeholder={"Пароль"}
             name={"password"}
             icon="EditIcon"
+            extraClass="mb-2"
           />
         </div>
-       
-          {auth.name !== valueName || auth.email !== valueEmail || "" !== valuePasswords ? ( <div style={{ padding: "12px 12px 40px 12px " }}>
-             <Button
-             type="primary"
-             size="small"
-             htmlType="submit"
-             onClick={handleClickBack}
-           >
-             Отменить
-           </Button>
-            
+
+        {auth.name !== valueName ||
+        auth.email !== valueEmail ||
+        "" !== valuePasswords ? (
+          <div className={styles.box}>
             <Button
-              type="primary"
-              size="large"
+              type="secondary"
+              size="small"
               htmlType="submit"
-              onClick={handleClickCommit}
+              onClick={handleClickBack}
             >
+              Отменить
+            </Button>
+            <Button type="primary" size="large" htmlType="submit">
               Сохранить
-            </Button> </div>
-          ) : (
-            ""
-          )}
-      
-      </div>
-    </div>
+            </Button>{" "}
+          </div>
+        ) : (
+          ""
+        )}
+      </form>
+    </main>
   );
 }

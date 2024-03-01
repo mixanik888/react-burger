@@ -1,5 +1,4 @@
-
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   EmailInput,
   PasswordInput,
@@ -13,9 +12,8 @@ import {
   setEmail,
   setName,
   setPassword,
-  userRegister, 
+  userRegister,
 } from "../../services/actions/actions";
-import { useNavigate} from "react-router-dom";
 
 export default function Register() {
   const dispatch = useDispatch();
@@ -46,66 +44,56 @@ export default function Register() {
 
   if (auth.isSetUser) {
     navigate("/");
-  } 
-
-  //name(pin):"Михаил"
-  //password(pin):"897798979879" 123456
-  //email(pin):"mixanik84@mail.ru" mzhesterov@yandex.ru
+  }
 
   return (
-    <div className={styles.wrapper}>
-      <div
-        className={styles.container}
-        style={{ display: "flex", flexDirection: "column", padding: "100px" }}
-      >
-        <p className="text text_type_main-large">Регистрация</p>
-        <div style={{ padding: "12px" }}>
+    <main className={styles.main}>
+      <form className={styles.main} onSubmit={handleClickRegister}>
+        <h3 className={`${styles.title} text text_type_main-medium`}>
+          Регистрация
+        </h3>
+
+        <div className="mt-6 mb-6">
           <Input
             onChange={onChangeName}
             value={auth.name}
             placeholder={"Имя"}
             name={"Name"}
             type={"text"}
+            extraClass="mb-2"
           />
-        </div>
-        <div style={{ padding: "12px" }}>
+        
+        
           <EmailInput
             onChange={onChangeEmail}
             value={auth.email}
             name={"email"}
+            extraClass="mb-2"
           />
-        </div>
-        <div style={{ padding: "12px" }}>
+       
           <PasswordInput
             onChange={onChangePassword}
             value={auth.password}
             name={"password"}
             extraClass="mb-2"
-          />{" "}
+          />
         </div>
 
         {auth.error != null ? (
           <p className="text text_type_main-default">Ошибка: {auth.error}</p>
         ) : null}
 
-        <div style={{ padding: "12px 12px 40px 12px " }}>
-          <Button
-            type="primary"
-            size="large"
-            htmlType="submit"
-            onClick={handleClickRegister}
-          >
-            Зарегистрироваться
-          </Button>
-        </div>
+        <Button type="primary" size="large" htmlType="submit">
+          Зарегистрироваться
+        </Button>
 
-        <p className="text text_type_main-default">
-          Уже зарегистрированы?{" "}
-          <Link to="/login" className={styles.link}>
+        <p className={`${styles.text} text text_type_main-default mt-20 mb-4`}>
+          Уже зарегистрированы?
+          <Link to="/login" className={`${styles.link} ml-2`}>
             Войти
           </Link>
         </p>
-      </div>
-    </div>
+      </form>
+    </main>
   );
 }

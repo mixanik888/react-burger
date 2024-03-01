@@ -16,49 +16,46 @@ export default function ProfilePage() {
       color: isActive ? "#F2F2F3" : "",
     };
   };
-  
+
   const onClick = () => {
     dispatch(signOut());
   };
 
   return (
-    <main className={styles.wrapper}>
-      <section className={styles.container}>
-        <ul className={styles.ul}>
-          <li className={styles.li}>
-            <p
-              className={`${styles.title} ${styles.active} text text_type_main-medium`}
-            >
-              <NavLink to="/profile" end style={activeState}>
-                Профиль
-              </NavLink>
-            </p>
-          </li>
-          <li className={styles.li}>
-            <p
-              className={`${styles.title} ${styles.active} text text_type_main-medium`}
-            >
-              <NavLink to="/profile/orders" end style={activeState}>
-                История
-              </NavLink>
-            </p>
-          </li>
-          <li className={styles.li}>
-            <p
-              className={`${styles.title} ${styles.active} text text_type_main-medium`}
-            >
-              <NavLink to="/login" style={activeState} onClick={onClick}>
-                Выход
-              </NavLink>
-            </p>
-          </li>
-        </ul>
-      </section>
-      <section className={styles.container}>
- 
-           { (location.pathname === "/profile") && <Profile />}
-           { (location.pathname === "/profile/orders") && <ProfileOrders />}
-      
+    <main className={styles.main}>
+      <nav className={`${styles.nav} mr-15`}>
+        <NavLink 
+        to="/profile" end 
+        className={styles.tab}
+        activeClassName={styles.active}
+        style={activeState}
+        >
+          <h3 className='text text_type_main-medium mt-4 mb-8'>Профиль</h3>
+        </NavLink>
+
+        <NavLink 
+        to="/profile/orders" end 
+        className={styles.tab}
+        activeClassName={styles.active}
+        style={activeState}
+        >
+          <h3 className='text text_type_main-medium mb-8'>История заказов</h3>
+        </NavLink>
+
+        <NavLink 
+        to="/login" 
+        className={styles.tab}
+        activeClassName={styles.active}
+        style={activeState}
+        >
+         <h3 onClick={onClick} className='text text_type_main-medium mb-4'>Выход</h3> 
+         
+        </NavLink>
+      </nav>
+
+      <section className={styles.section}>
+        {location.pathname === "/profile" && <Profile />}
+        {location.pathname === "/profile/orders" && <ProfileOrders />}
       </section>
     </main>
   );
