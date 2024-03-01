@@ -61,10 +61,16 @@ export const userProfile = createAsyncThunk("commitProfile", async (user) => {
 });
 
 export const setUser = createAsyncThunk("setUser", async () => {
+ 
+ if (localStorage.getItem("accessToken") !== "" ) {
+
   return await fetchWithRefresh(`${ApiConfig.baseURL}/auth/user`, {
     method: "GET",
     headers: ApiConfig.headers,
-  });
+  });}
+
+else return
+  
 });
 
 export const callEmailToForget = createAsyncThunk(
