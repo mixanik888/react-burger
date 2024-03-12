@@ -12,18 +12,19 @@ const getResponse = (res) => {
   } else return res.json().then((err) => Promise.reject(err));
 };
 
+
+
 export const fetchWith = (url, options) => {
 
-  return fetch(url, options)
-    .then(getResponse)
-    .then((refreshData) => {
-      if (!refreshData.success) {
+   return fetch(url, options)
+     .then(getResponse)
+     .then((refreshData) => {
+       if (!refreshData.success) {
         return (err) => Promise.reject(err);
-      }
-      localStorage.setItem("refreshToken", refreshData.refreshToken);
-      localStorage.setItem("accessToken", refreshData.accessToken);
-      return refreshData;
-    });
+       } 
+
+       return refreshData;
+     });
 
 } 
 

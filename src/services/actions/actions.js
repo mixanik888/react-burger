@@ -31,13 +31,19 @@ export const addOrder = createAsyncThunk(
 );
 
 export const singIn = createAsyncThunk("singIn", async (user) => {
-  return await fetchWith(`${ApiConfig.baseURL}/auth/login`, {
+  const refreshData = await fetchWith(`${ApiConfig.baseURL}/auth/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json;charset=utf-8",
     },
     body: JSON.stringify(user),
   });
+
+  localStorage.setItem("refreshToken", refreshData.refreshToken);
+  localStorage.setItem("accessToken", refreshData.accessToken);
+
+ return refreshData;
+
 });
 
 export const signOut = createAsyncThunk("signOut", async () => {
@@ -54,8 +60,8 @@ export const signOut = createAsyncThunk("signOut", async () => {
 
 export const userProfile = createAsyncThunk("commitProfile", async (user) => {
   let json = JSON.stringify(user);
-
-  return await fetchWithRefresh(`${ApiConfig.baseURL}/auth/user`, {
+  console.log(json);
+  return await fetchWith(`${ApiConfig.baseURL}/auth/user`, {
     method: "PATCH",
     headers: ApiConfig.headers,
     body: json,
@@ -66,10 +72,12 @@ export const setUser = createAsyncThunk("setUser", async () => {
  
  if (localStorage.getItem("accessToken") !== null  ) {
 
-  return await fetchWith(`${ApiConfig.baseURL}/auth/user`, {
+  return  await fetchWith(`${ApiConfig.baseURL}/auth/user`, {
     method: "GET",
     headers: ApiConfig.headers,
-  });}
+  });
+
+}
 
 else return
   
