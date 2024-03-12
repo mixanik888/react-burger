@@ -64,9 +64,9 @@ export const userProfile = createAsyncThunk("commitProfile", async (user) => {
 
 export const setUser = createAsyncThunk("setUser", async () => {
  
- if (localStorage.getItem("accessToken") !== null && localStorage.getItem("accessToken") !== "" ) {
+ if (localStorage.getItem("accessToken") !== null  ) {
 
-  return await fetchWithRefresh(`${ApiConfig.baseURL}/auth/user`, {
+  return await fetchWith(`${ApiConfig.baseURL}/auth/user`, {
     method: "GET",
     headers: ApiConfig.headers,
   });}

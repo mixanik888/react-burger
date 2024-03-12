@@ -18,7 +18,7 @@ export const fetchWith = (url, options) => {
     .then(getResponse)
     .then((refreshData) => {
       if (!refreshData.success) {
-        return Promise.reject(refreshData);
+        return (err) => Promise.reject(err);
       }
       localStorage.setItem("refreshToken", refreshData.refreshToken);
       localStorage.setItem("accessToken", refreshData.accessToken);

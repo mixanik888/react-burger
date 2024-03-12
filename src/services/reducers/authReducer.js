@@ -122,7 +122,7 @@ const authSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(setUser.fulfilled, (state, action) => {
-        if (localStorage.getItem("accessToken") !== null && localStorage.getItem("accessToken") !== "" ) {
+        if (localStorage.getItem("accessToken") !== null ) {
           state.loading = false;
           state.name = action.payload.user.name;
           state.password = "";
