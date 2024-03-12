@@ -27,7 +27,6 @@ export default function ProfilePage() {
         <NavLink 
         to="/profile" end 
         className={styles.tab}
-        activeClassName={styles.active}
         style={activeState}
         >
           <h3 className='text text_type_main-medium mt-4 mb-8'>Профиль</h3>
@@ -36,7 +35,6 @@ export default function ProfilePage() {
         <NavLink 
         to="/profile/orders" end 
         className={styles.tab}
-        activeClassName={styles.active}
         style={activeState}
         >
           <h3 className='text text_type_main-medium mb-8'>История заказов</h3>
@@ -45,7 +43,6 @@ export default function ProfilePage() {
         <NavLink 
         to="/login" 
         className={styles.tab}
-        activeClassName={styles.active}
         style={activeState}
         >
          <h3 onClick={onClick} className='text text_type_main-medium mb-4'>Выход</h3> 

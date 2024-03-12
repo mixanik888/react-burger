@@ -122,13 +122,13 @@ const authSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(setUser.fulfilled, (state, action) => {
-        if (localStorage.getItem("accessToken") !== "" ) {
-        state.loading = false;
-        state.name = action.payload.user.name;
-        state.password = "";
-        state.email = action.payload.user.email;
-        state.isSetUser = true;}
-        else {
+        if (localStorage.getItem("accessToken") !== null && localStorage.getItem("accessToken") !== "" ) {
+          state.loading = false;
+          state.name = action.payload.user.name;
+          state.password = "";
+          state.email = action.payload.user.email;
+          state.isSetUser = true;
+        } else {
           state.loading = false;
           state.isSetUser = false;
         }

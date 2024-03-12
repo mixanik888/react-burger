@@ -7,7 +7,6 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./Profile.module.css";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { userProfile } from "../../services/actions/actions";
 
 export default function Profile() {
@@ -103,7 +102,7 @@ export default function Profile() {
             </Button>
             <Button type="primary" size="large" htmlType="submit">
               Сохранить
-            </Button>{" "}
+            </Button>
           </div>
         ) : (
           ""
