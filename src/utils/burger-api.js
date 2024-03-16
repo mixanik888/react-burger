@@ -1,8 +1,8 @@
 export const ApiConfig = {
   baseURL: "https://norma.nomoreparties.space/api",
   headers: {
-     "Content-Type": 'application/json;charset=utf-8',
-     "authorization": localStorage.getItem('accessToken')
+    "Content-Type": "application/json;charset=utf-8",
+    authorization: localStorage.getItem("accessToken"),
   },
 };
 
@@ -12,21 +12,17 @@ const getResponse = (res) => {
   } else return res.json().then((err) => Promise.reject(err));
 };
 
-
-
 export const fetchWith = (url, options) => {
-
-   return fetch(url, options)
-     .then(getResponse)
-     .then((refreshData) => {
-       if (!refreshData.success) {
+  return fetch(url, options)
+    .then(getResponse)
+    .then((refreshData) => {
+      if (!refreshData.success) {
         return (err) => Promise.reject(err);
-       } 
+      }
 
-       return refreshData;
-     });
-
-} 
+      return refreshData;
+    });
+};
 
 export const refreshToken = () => {
   return (
@@ -54,7 +50,6 @@ export const refreshToken = () => {
 };
 
 export const fetchWithRefresh = async (url, options) => {
-
   try {
     const res = await fetch(url, options);
     return await getResponse(res);
@@ -75,4 +70,3 @@ export const getProjectIngredients = () => {
     headers: ApiConfig.headers,
   }).then(getResponse);
 };
-
