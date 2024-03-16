@@ -7,7 +7,6 @@ import { useSelector } from "react-redux";
 
 export default function BurgerIngredients({
   handleElementClick,
-  openIngredientDetailsClick,
 }) {
   const [current, setCurrent] = React.useState("BunTab");
   const data = useSelector((store) => store.data.data1.data);
@@ -121,7 +120,6 @@ export default function BurgerIngredients({
                 <Ingredient
                   key={element._id}
                   element={element}
-                  openIngredientDetailsClick={openIngredientDetailsClick}
                   handleElementClick={handleElementClick}
                 />
               );
@@ -139,7 +137,6 @@ export default function BurgerIngredients({
                 <Ingredient
                   key={element._id}
                   element={element}
-                  openIngredientDetailsClick={openIngredientDetailsClick}
                   handleElementClick={handleElementClick}
                 />
               );
@@ -157,7 +154,6 @@ export default function BurgerIngredients({
                 <Ingredient
                   key={element._id}
                   element={element}
-                  openIngredientDetailsClick={openIngredientDetailsClick}
                   handleElementClick={handleElementClick}
                 />
               );
@@ -171,5 +167,4 @@ export default function BurgerIngredients({
 
 BurgerIngredients.propTypes = {
   handleElementClick: PropTypes.func.isRequired,
-  openIngredientDetailsClick: PropTypes.func.isRequired,
 };

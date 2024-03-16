@@ -1,23 +1,33 @@
-import { useCallback } from "react";
+import { useCallback,useState } from "react";
 import styles from "./BurgerConstructor.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
-import PropTypes from "prop-types";
 import {
   deleteConstructorItem,
   addConstructorBun,
   addConstructorItem,
   spliceConstructorItem,
+  clearConstructor,
 } from "../../services/reducers/constructorReducer";
+import { addOrder } from "../../services/actions/actions";
+
 import { useDrop } from "react-dnd";
 import { BurgerElement } from "../BurgerElement/BurgerElement";
 import PriceCount from "../PriceCount/PriceCount";
 
-import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 
-export default function BurgerConstructor({ handleOrderToBayClick }) {
+import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
+import Modal from "../Modal/Modal";
+import OrderDetails from "../OrderDetails/OrderDetails";
+import { useNavigate} from "react-router-dom";
+
+
+export default function BurgerConstructor() {
   const dispatch = useDispatch();
   const { bun, ingredients } = useSelector((store) => store.burger);
+  const [isOpen, setOpen] = useState(false);
+  const user = useSelector((store) => store.auth.isSetUser);
+  const navigate = useNavigate();
 
   const [{ canDrop, isOver }, drop] = useDrop(() => ({
     accept: "ingredient",
@@ -44,7 +54,7 @@ export default function BurgerConstructor({ handleOrderToBayClick }) {
 
   const moveElement = useCallback(
     (dragIndex, hoverIndex) => {
-      console.log(dragIndex, hoverIndex);
+      //console.log(dragIndex, hoverIndex);
       dispatch(
         spliceConstructorItem({
           dragIndex: { dragIndex },
@@ -54,6 +64,36 @@ export default function BurgerConstructor({ handleOrderToBayClick }) {
     },
     [dispatch]
   );
+
+  const ingredientsList = [];
+
+  const handleOrderToBayClick = () => {
+
+     if  (user === false) {
+   
+       navigate("/login");
+
+       } 
+     else {
+      if (bun !== null) {
+       ingredientsList.push(bun._id);
+
+       for (const item of ingredients) {
+         ingredientsList.push(item._id);
+       }
+
+       ingredientsList.push(bun._id);
+
+       dispatch(addOrder(ingredientsList));
+       dispatch(clearConstructor());
+       setOpen(!isOpen);
+     }
+    }
+   };
+
+   const closeModal = () => {
+    setOpen(!isOpen);
+  };
 
   return (
     <div className={styles.container} ref={drop}>
@@ -129,10 +169,13 @@ export default function BurgerConstructor({ handleOrderToBayClick }) {
           </Button>
         </div>
       </div>
+
+       {isOpen ? (
+            <Modal onClose={closeModal}>
+               <OrderDetails />
+            </Modal>
+          ) : null}  
     </div>
   );
 }
 
-BurgerConstructor.propTypes = {
-  handleOrderToBayClick: PropTypes.func.isRequired
-};

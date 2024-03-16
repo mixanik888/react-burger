@@ -1,35 +1,43 @@
 import React from "react";
 import styles from "./App.module.css";
 import AppHeader from "../AppHeader/Header";
-import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
-import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import IngredientDetails from "../Ingredientdetails/Ingredientdetails";
-import OrderDetails from "../OrderDetails/OrderDetails";
+
 import Modal from "../Modal/Modal";
 
-import { useDispatch } from "react-redux";
-import { addOrder, loadIngredient } from "../../services/actions/actions";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { loadIngredient, setUser } from "../../services/actions/actions";
+
 import {
   addConstructorItem,
   addConstructorBun,
-  clearConstructor,
 } from "../../services/reducers/constructorReducer";
-import { setActionIngredient } from "../../services/reducers/actionIngredientReducer";
+
+import HomeBurger from "../../pages/Home";
+import NotFound404 from "../../pages/Not-found";
+import Login from "../../pages/Login";
+
+import { Routes, Route } from "react-router-dom";
+import ListOrderPage from "../../pages/ListOrder";
+import RegisterPage from "../../pages/Register";
+import ForgotPasswordPage from "../../pages/Forgot-password";
+import ResetPasswordPage from "../../pages/Reset-password";
+import ProfilePage from "../../pages/Profile";
+import { useLocation, useNavigate } from "react-router-dom";
+import { OnlyAutch1, OnlyUnAutch1 } from "./Protected-route";
 
 export default function App() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const background = location.state && location.state.background;
+
   const dispatch = useDispatch();
 
   const { loading, error, data1 } = useSelector((store) => store.data);
-  const { actionIngredient } = useSelector((store) => store.acIngredient);
-  const { bun, ingredients } = useSelector((store) => store.burger);
-
-  const [isOpen, setOpen] = React.useState(false);
-
-  const ingredientsList = [];
 
   React.useEffect(() => {
     dispatch(loadIngredient());
+    dispatch(setUser());
   }, [dispatch]);
 
   if (loading || data1.length === 0) {
@@ -51,30 +59,7 @@ export default function App() {
   };
 
   const closeModal = () => {
-    setOpen(!isOpen);
-  };
-
-  const handleOrderToBayClick = () => {
-    if (bun !== null) {
-     
-      ingredientsList.push(bun._id);
-
-      for (const item of ingredients) {
-        ingredientsList.push(item._id);
-      }
-
-      ingredientsList.push(bun._id);
-
-      dispatch(addOrder(ingredientsList));
-      dispatch(setActionIngredient(null));
-      dispatch(clearConstructor());
-      setOpen(!isOpen);
-    }
-  };
-
-  const openIngredientDetailsClick = (e, item) => {
-    dispatch(setActionIngredient(item));
-    setOpen(!isOpen);
+    navigate(-1);
   };
 
   return (
@@ -82,29 +67,37 @@ export default function App() {
       {
         <div className={styles.App}>
           <AppHeader />
-          <main className={styles.content}>
-            <section className={styles.ingredients}>
-              <BurgerIngredients
-                handleElementClick={handleElementClick}
-                openIngredientDetailsClick={openIngredientDetailsClick}
-              />
-            </section>
-            <section className={styles.constructor}>
-              <BurgerConstructor
-                handleOrderToBayClick={handleOrderToBayClick}
-              />
-            </section>
-          </main>
+          <Routes location={background || location}>
+            <Route
+              path="/"
+              element={<HomeBurger handleElementClick={handleElementClick} />}
+            />
+            <Route path="/ingredients/:ingId" element={<IngredientDetails />} />
+           
+            <Route path="/login" element={<OnlyUnAutch1 component={<Login />} />} />
+            <Route path="/listOrder" element={<ListOrderPage />} />
+            <Route path="/register" element={<OnlyUnAutch1 component={<RegisterPage />}/>} />
+            <Route path="/forgot-password" element={<OnlyUnAutch1 component={<ForgotPasswordPage  />} />} />
+            <Route path="/reset-password" element={<OnlyUnAutch1 component={<ResetPasswordPage  />} />} />
+            <Route path="/profile" element={<OnlyAutch1 component={<ProfilePage />} />} />
+            <Route path="/profile/orders" element={<OnlyAutch1 component={<ProfilePage />} />} />
+            
+            <Route path="*" element={<NotFound404 />} />
+         
+          </Routes>
 
-          {isOpen ? (
-            <Modal onClose={closeModal}>
-              {actionIngredient !== null ? (
-                <IngredientDetails />
-              ) : (
-                <OrderDetails />
-              )}
-            </Modal>
-          ) : null}
+          {background && (
+            <Routes>
+              <Route
+                path="/ingredients/:ingId"
+                element={
+                  <Modal onClose={closeModal}>
+                    <IngredientDetails />
+                  </Modal>
+                }
+              />
+            </Routes>
+          )}
         </div>
       }
     </div>
