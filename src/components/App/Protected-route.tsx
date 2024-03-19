@@ -1,11 +1,20 @@
+
+import { FC, ReactElement } from "react";
 import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router";
 
-const Protected = ({ onlyUnAutch = false, component }) => {
+
+interface TProtected {
+  onlyUnAutch?: boolean
+  component: ReactElement}
+
+const Protected: FC<TProtected> = ({ onlyUnAutch = false, component }) => {
   //isAuthChecked проверяем что проверка токена пройзведена
   //onlyUnAutch - пользователь не авторизован
   //const isAuthChecked = useSelector ((store) => store.user.isAuthChecked);
+  // @ts-ignore
   const user = useSelector((store) => store.auth.isSetUser);
+  // @ts-ignore
   const load = useSelector((store) => store.auth.loading);
 
   let location = useLocation();
@@ -30,7 +39,8 @@ const Protected = ({ onlyUnAutch = false, component }) => {
   return component;
 };
 
-export const OnlyAutch1 = Protected;
-export const OnlyUnAutch1 = ({ component }) => (
+export const OnlyAutch1: FC<TProtected> =  ({ component }) => ( <Protected component={component} />);
+
+export const OnlyUnAutch1: FC<TProtected> = ({ component }) => (
   <Protected onlyUnAutch={true} component={component} />
 );

@@ -4,6 +4,7 @@ import image from "../../images/logo192.png";
 import { useSelector } from "react-redux";
 
 export default function OrderDetails() {
+   // @ts-ignore
   const { loading, order, error } = useSelector((store) => store.order);
 
   if (loading || order === null) {

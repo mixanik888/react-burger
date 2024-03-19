@@ -11,19 +11,22 @@ import { setEmail, setPassword, singIn } from "../../services/actions/actions";
 
 export default function Login() {
   const dispatch = useDispatch();
+  // @ts-ignore
   const auth = useSelector((store) => store.auth);
 
-  const onChangeEmail = (e) => {
+  const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // @ts-ignore
     dispatch(setEmail(e.target.value));
   };
 
-  const onChangePassword = (e) => {
+  const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // @ts-ignore
     dispatch(setPassword(e.target.value));
   };
 
-  const handleClickLogin = (e) => {
-    dispatch(
-      singIn({
+  const handleClickLogin = (e: React.FormEvent) => {
+   // @ts-ignore
+    dispatch(singIn({
         password: auth.password,
         email: auth.email,
       })

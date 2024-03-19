@@ -3,35 +3,37 @@ import styles from "./BurgerConstructor.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  deleteConstructorItem,
   addConstructorBun,
   addConstructorItem,
   spliceConstructorItem,
   clearConstructor,
 } from "../../services/reducers/constructorReducer";
 import { addOrder } from "../../services/actions/actions";
-
 import { useDrop } from "react-dnd";
-import { BurgerElement } from "../BurgerElement/BurgerElement";
+import BurgerElement from "../BurgerElement/BurgerElement";
 import PriceCount from "../PriceCount/PriceCount";
-
-
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import { useNavigate} from "react-router-dom";
+import { TElement } from "../../utils/types";
 
+interface DragItem {
+  element: TElement;
+}
 
 export default function BurgerConstructor() {
   const dispatch = useDispatch();
+ // @ts-ignore
   const { bun, ingredients } = useSelector((store) => store.burger);
   const [isOpen, setOpen] = useState(false);
+  // @ts-ignore
   const user = useSelector((store) => store.auth.isSetUser);
   const navigate = useNavigate();
 
   const [{ canDrop, isOver }, drop] = useDrop(() => ({
     accept: "ingredient",
-    drop: (item) => addConstructorElement(item.element),
+    drop: (item:DragItem) => addConstructorElement(item.element),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
@@ -40,23 +42,21 @@ export default function BurgerConstructor() {
 
   const isActive = canDrop && isOver;
 
-  const addConstructorElement = (element) => {
+  const addConstructorElement = (element:TElement) => {
     if (element.type !== "bun") {
+      // @ts-ignore
       dispatch(addConstructorItem(element));
     } else {
+      // @ts-ignore
       dispatch(addConstructorBun(element));
     }
   };
 
-  const deleteConstructorElement = (e) => {
-    dispatch(deleteConstructorItem(e));
-  };
 
   const moveElement = useCallback(
-    (dragIndex, hoverIndex) => {
-      //console.log(dragIndex, hoverIndex);
-      dispatch(
-        spliceConstructorItem({
+    (dragIndex:number, hoverIndex:number) => {
+      // @ts-ignore
+      dispatch(spliceConstructorItem({
           dragIndex: { dragIndex },
           hoverIndex: { hoverIndex },
         })
@@ -65,7 +65,7 @@ export default function BurgerConstructor() {
     [dispatch]
   );
 
-  const ingredientsList = [];
+  const ingredientsList:Array<String> = [];
 
   const handleOrderToBayClick = () => {
 
@@ -83,8 +83,9 @@ export default function BurgerConstructor() {
        }
 
        ingredientsList.push(bun._id);
-
+       // @ts-ignore 
        dispatch(addOrder(ingredientsList));
+       // @ts-ignore
        dispatch(clearConstructor());
        setOpen(!isOpen);
      }
@@ -119,7 +120,7 @@ export default function BurgerConstructor() {
         {ingredients.length === 0 ? (
           <div className={styles.box}></div>
         ) : (
-          ingredients.map((element, index) => {
+          ingredients.map((element:TElement, index:number) => {
             return (
               element.type !== "bun" && (
                 <div key={element.key}>
@@ -129,7 +130,6 @@ export default function BurgerConstructor() {
                     id={element.key}
                     element={element}
                     moveElement={moveElement}
-                    deleteConstructorElement={deleteConstructorElement}
                   />
                 </div>
               )

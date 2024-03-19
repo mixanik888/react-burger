@@ -2,57 +2,57 @@ import React, { useRef } from "react";
 import styles from "./BurgerIngredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import Ingredient from "../Ingredient/Ingredient";
-import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import { TElement } from "../../utils/types";
 
-export default function BurgerIngredients({
-  handleElementClick,
-}) {
+export default function BurgerIngredients() {
+
   const [current, setCurrent] = React.useState("BunTab");
+  // @ts-ignore
   const data = useSelector((store) => store.data.data1.data);
 
-  const scrollToBun = useRef();
-  const scrollToSauce = useRef();
-  const scrollToMain = useRef();
-  const scrollNullRef = useRef();
+  const scrollToBun = useRef<HTMLDivElement>(null);
+  const scrollToSauce = useRef<HTMLDivElement>(null);
+  const scrollToMain = useRef<HTMLDivElement>(null);
+  const scrollNullRef = useRef<HTMLDivElement>(null);
 
   const buns = React.useMemo(
-    () => data.filter((item) => item.type === "bun"),
+    () => data.filter((item:TElement) => item.type === "bun"),
     [data]
   );
 
   const sauces = React.useMemo(
-    () => data.filter((item) => item.type === "sauce"),
+    () => data.filter((item:TElement) => item.type === "sauce"),
     [data]
   );
 
   const mains = React.useMemo(
-    () => data.filter((item) => item.type === "main"),
+    () => data.filter((item:TElement) => item.type === "main"),
     [data]
   );
 
-  const executeScroll = (e) => {
-    if (e === "BunTab") {
+   const executeScroll = (e: string) => {
+     if (e === "BunTab") {
       setCurrent(e);
-      scrollToBun.current.scrollIntoView();
+       scrollToBun.current!.scrollIntoView();
     }
 
-    if (e === "SauceTab") {
-      setCurrent(e);
-      scrollToSauce.current.scrollIntoView();
-    }
+     if (e === "SauceTab") {
+       setCurrent(e);
+      scrollToSauce.current!.scrollIntoView();
+     }
 
-    if (e === "MainTab") {
-      setCurrent(e);
-      scrollToMain.current.scrollIntoView();
-    }
-  };
+     if (e === "MainTab") {
+       setCurrent(e);
+      scrollToMain.current!.scrollIntoView();
+     }
+   };
 
-  const OnScroll = (e) => {
-    const rectBun     = scrollToBun.current.getBoundingClientRect();
-    const rectSauce   = scrollToSauce.current.getBoundingClientRect();
-    const rectMain    = scrollToMain.current.getBoundingClientRect();
-    const nullRef     = scrollNullRef.current.getBoundingClientRect();
+  const OnScroll = () => {
+    const rectBun     = scrollToBun.current!.getBoundingClientRect();
+    const rectSauce   = scrollToSauce.current!.getBoundingClientRect();
+    const rectMain    = scrollToMain.current!.getBoundingClientRect();
+    const nullRef     = scrollNullRef.current!.getBoundingClientRect();
 
     if (
       nullRef.top < rectBun.top &&
@@ -84,7 +84,7 @@ export default function BurgerIngredients({
         >
           Соберите бургер
         </p>
-        <div className={styles.containerTab} name="IngredientTab">
+        <div className={styles.containerTab}>
           <Tab
             value="BunTab"
             active={current === "BunTab"}
@@ -115,12 +115,11 @@ export default function BurgerIngredients({
             Булки
           </p>
           <div className={styles.buns}>
-            {buns.map((element) => {
+            {buns.map((element:TElement) => {
               return (
                 <Ingredient
                   key={element._id}
                   element={element}
-                  handleElementClick={handleElementClick}
                 />
               );
             })}
@@ -132,12 +131,11 @@ export default function BurgerIngredients({
             Соусы
           </p>
           <div className={styles.sauces}>
-            {sauces.map((element) => {
+            {sauces.map((element:TElement) => {
               return (
                 <Ingredient
                   key={element._id}
                   element={element}
-                  handleElementClick={handleElementClick}
                 />
               );
             })}
@@ -149,12 +147,11 @@ export default function BurgerIngredients({
             Начинки
           </p>
           <div className={styles.mains}>
-            {mains.map((element) => {
+            {mains.map((element:TElement) => {
               return (
                 <Ingredient
                   key={element._id}
                   element={element}
-                  handleElementClick={handleElementClick}
                 />
               );
             })}
@@ -165,6 +162,3 @@ export default function BurgerIngredients({
   );
 }
 
-BurgerIngredients.propTypes = {
-  handleElementClick: PropTypes.func.isRequired,
-};
