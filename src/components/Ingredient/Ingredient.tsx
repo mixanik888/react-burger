@@ -17,7 +17,6 @@ import { TElement } from "../../utils/types";
 
 interface DragItem {
   element: TElement
-  key: string
 }
 
 const Ingredient: FC<DragItem> = ({element}) => {
