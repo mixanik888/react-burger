@@ -1,28 +1,37 @@
-import React, { useMemo } from "react";
+import React, { useMemo, FC } from "react";
 import styles from "./Ingredient.module.css";
 import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
-import { ingredientType } from "../../utils/types";
+
 import { useDrag } from "react-dnd";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
+import {
+  addConstructorItem,
+  addConstructorBun,
+} from "../../services/reducers/constructorReducer";
+import { TElement } from "../../utils/types";
 
-export default function Ingredient({
-  element,
-  openIngredientDetailsClick,
-  handleElementClick,
-}) {
+interface DragItem {
+  element: TElement
+  key: string
+}
+
+const Ingredient: FC<DragItem> = ({element}) => {
+  const dispatch = useDispatch();
+  // @ts-ignore
   const { bun, ingredients } = useSelector((store) => store.burger);
+    // @ts-ignore
+    const data = useSelector((store) => store.data.data1.data);
 
   const location = useLocation();
   const ingId = element['_id'];
 
   const countValueItem = useMemo(() => {
-    return ingredients.filter((item) => item._id === element._id).length;
+    return ingredients.filter((item:TElement) => item._id === element._id).length;
   }, [ingredients, element._id]);
 
   const countValueBun = useMemo(() => {
@@ -46,11 +55,24 @@ export default function Ingredient({
     }),
   }));
 
+  const handleElementClick = (e:  React.MouseEvent<HTMLDivElement>) => {
+    const element = data.find((item:TElement) => item._id === e.currentTarget.id);
+
+    if (element.type !== "bun") {
+       // @ts-ignore
+      dispatch(addConstructorItem(element));
+    } else {
+       // @ts-ignore
+      dispatch(addConstructorBun(element));
+    }
+  };
+
+
   return (
     <div key={element._id} className={styles.ingredient} ref={drag}>
       {count > 0 && (
         <div className={styles.counter}>
-          <Counter id={element._id} count={count} size="default" />
+          <Counter count={count} size="default" />
         </div>
       )}
       <Link
@@ -81,7 +103,4 @@ export default function Ingredient({
   );
 }
 
-Ingredient.propTypes = {
-  element: ingredientType,
-  handleElementClick: PropTypes.func.isRequired,
-};
+export default Ingredient;

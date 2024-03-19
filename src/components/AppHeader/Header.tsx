@@ -11,9 +11,10 @@ import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export default function AppHeader() {
+ // @ts-ignore
   const auth = useSelector((store) => store.auth);
 
-  const activeState = ({ isActive }) => {
+  const activeState = ({ isActive }: { isActive: boolean }) => {
     return {
       color: isActive ? "#F2F2F3" : "",
     };
@@ -22,7 +23,7 @@ export default function AppHeader() {
   return (
     <header className={stylesH.header}>
       <div className={stylesH.container}>
-        <div className={stylesH.constructor}>
+        <div className={stylesH.constructor1}>
           <div className={`${stylesH.icon} ${stylesH.active}`}>
             <NavLink to="/" style={activeState}>
               <BurgerIcon type="primary" />

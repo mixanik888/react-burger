@@ -13,14 +13,17 @@ import { setEmail, callEmailToForget } from "../../services/actions/actions";
 export default function ForgotPassword() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  // @ts-ignore
   const auth = useSelector((store) => store.auth);
 
-  const onChangeEmail = (e) => {
+  const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // @ts-ignore
     dispatch(setEmail(e.target.value));
   };
 
-  const handleClick = (e) => {
+  const handleClick = (e: React.FormEvent<HTMLFormElement>) => {
     if (auth.email !== "") {
+      // @ts-ignore
       dispatch(callEmailToForget({ email: auth.email }));
     }
   };

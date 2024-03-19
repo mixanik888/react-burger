@@ -8,11 +8,6 @@ import Modal from "../Modal/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { loadIngredient, setUser } from "../../services/actions/actions";
 
-import {
-  addConstructorItem,
-  addConstructorBun,
-} from "../../services/reducers/constructorReducer";
-
 import HomeBurger from "../../pages/Home";
 import NotFound404 from "../../pages/Not-found";
 import Login from "../../pages/Login";
@@ -32,11 +27,13 @@ export default function App() {
   const background = location.state && location.state.background;
 
   const dispatch = useDispatch();
-
+   // @ts-ignore
   const { loading, error, data1 } = useSelector((store) => store.data);
 
   React.useEffect(() => {
+    // @ts-ignore
     dispatch(loadIngredient());
+    // @ts-ignore
     dispatch(setUser());
   }, [dispatch]);
 
@@ -47,16 +44,6 @@ export default function App() {
   if (!loading && error) {
     return <h2>error: {error}</h2>;
   }
-
-  const handleElementClick = (e) => {
-    const element = data1.data.find((item) => item._id === e.target.id);
-
-    if (element.type !== "bun") {
-      dispatch(addConstructorItem(element));
-    } else {
-      dispatch(addConstructorBun(element));
-    }
-  };
 
   const closeModal = () => {
     navigate(-1);
@@ -70,7 +57,7 @@ export default function App() {
           <Routes location={background || location}>
             <Route
               path="/"
-              element={<HomeBurger handleElementClick={handleElementClick} />}
+              element={<HomeBurger />}
             />
             <Route path="/ingredients/:ingId" element={<IngredientDetails />} />
            

@@ -3,7 +3,7 @@ import {
   singIn,
   userRegister,
   signOut,
-  userProfile,
+  commitProfile,
   setName,
   setPassword,
   setEmail,
@@ -11,6 +11,7 @@ import {
   setToken,
   callResetPassword,
   setUser,
+
 } from "../actions/actions";
 
 const initialState = {
@@ -29,7 +30,7 @@ const authSlice = createSlice({
   initialState,
   extraReducers: (builder) => {
     builder
-      .addCase(userProfile.fulfilled, (state, action) => {
+      .addCase(commitProfile.fulfilled, (state, action) => {
         state.name = action.payload.user.name;
         state.email = action.payload.user.email;
       })

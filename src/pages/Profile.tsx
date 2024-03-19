@@ -10,14 +10,15 @@ import { signOut } from "../services/actions/actions";
 export default function ProfilePage() {
   const dispatch = useDispatch();
   let location = useLocation();
-
-  const activeState = ({ isActive }) => {
+  
+  const activeState = ({ isActive }: { isActive: boolean }) => {
     return {
       color: isActive ? "#F2F2F3" : "",
     };
   };
 
   const onClick = () => {
+    // @ts-ignore
     dispatch(signOut());
   };
 
@@ -27,7 +28,7 @@ export default function ProfilePage() {
         <NavLink 
         to="/profile" end 
         className={styles.tab}
-        style={activeState}
+        style={activeState} 
         >
           <h3 className='text text_type_main-medium mt-4 mb-8'>Профиль</h3>
         </NavLink>
@@ -35,7 +36,7 @@ export default function ProfilePage() {
         <NavLink 
         to="/profile/orders" end 
         className={styles.tab}
-        style={activeState}
+        style={activeState} 
         >
           <h3 className='text text_type_main-medium mb-8'>История заказов</h3>
         </NavLink>

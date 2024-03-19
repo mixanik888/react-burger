@@ -17,24 +17,28 @@ import {
 
 export default function Register() {
   const dispatch = useDispatch();
+  // @ts-ignore
   const auth = useSelector((store) => store.auth);
   const navigate = useNavigate();
 
-  const onChangeName = (e) => {
+  const onChangeName = (e: React.FormEvent<HTMLInputElement>) => {
+    // @ts-ignore
     dispatch(setName(e.target.value));
   };
 
-  const onChangeEmail = (e) => {
+  const onChangeEmail = (e: React.FormEvent<HTMLInputElement>) => {
+    // @ts-ignore
     dispatch(setEmail(e.target.value));
   };
 
-  const onChangePassword = (e) => {
+  const onChangePassword = (e: React.FormEvent<HTMLInputElement>) => {
+    // @ts-ignore
     dispatch(setPassword(e.target.value));
   };
 
-  const handleClickRegister = (e) => {
-    dispatch(
-      userRegister({
+  const handleClickRegister = () => {
+    // @ts-ignore
+    dispatch( userRegister({
         name: auth.name,
         password: auth.password,
         email: auth.email,

@@ -16,19 +16,22 @@ import {
 export default function ResetPassword() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const auth = useSelector((store) => store.auth);
+  const auth = useSelector((store:any) => store.auth);
 
-  const onChangePassword = (e) => {
+  const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // @ts-ignore
     dispatch(setPassword(e.target.value));
   };
 
-  const onChangeToken = (e) => {
+  const onChangeToken = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // @ts-ignore
     dispatch(setToken(e.target.value));
   };
 
-  const handleClick = (e) => {
+  const handleClick = (e: React.FormEvent<HTMLFormElement>) => {
     if (auth.password !== "") {
       dispatch(
+        // @ts-ignore
         callResetPassword({ password: auth.password, token: auth.token })
       );
     }

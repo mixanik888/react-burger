@@ -2,16 +2,18 @@ import React from "react";
 import styles from "./Ingredientdetails.module.css";
 //import { ingredientType } from "../utils/types";
 import { useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { TElement } from "../../utils/types";
+
 
 export default function IngredientDetails() {
   let { ingId } = useParams();
-
+  // @ts-ignore
   const data = useSelector((store) => store.data.data1.data);
 
   const actionIngredient = React.useMemo(
-    () => data.filter((item) => item._id === ingId),
-    [data]
+    () => data.filter((item:TElement) => item._id === ingId),
+    [data, ingId]
   );
 
   if (actionIngredient.length === 0) return null;

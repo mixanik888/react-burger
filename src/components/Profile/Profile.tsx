@@ -7,43 +7,49 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./Profile.module.css";
 import { useSelector, useDispatch } from "react-redux";
-import { userProfile } from "../../services/actions/actions";
+import { commitProfile } from "../../services/actions/actions";
 
 export default function Profile() {
   const dispatch = useDispatch();
+   // @ts-ignore
   const auth = useSelector((store) => store.auth);
 
-  const [valueName, setValueName] = React.useState(auth.name);
-  const [isNotEditName, setIsNotEditName] = React.useState(false);
+  const [valueName, setValueName] = React.useState<string>(auth.name);
+  //const [isNotEditName, setIsNotEditName] = React.useState(false);
 
-  const [valueEmail, setValueEmail] = React.useState(auth.email);
-  const [isNotEditNameEmail, setIsNotEditNameEmail] = React.useState(false);
+  const [valueEmail, setValueEmail] = React.useState<string>(auth.email);
+  //const [isNotEditNameEmail, setIsNotEditNameEmail] = React.useState(false);
 
-  const [valuePasswords, setValuePasswords] = React.useState("");
+  const [valuePasswords, setValuePasswords] = React.useState<string>("");
 
-  const handleClickBack = (e) => {
+  const handleClickBack = () => {
     setValueName(auth.name);
     setValueEmail(auth.email);
     setValuePasswords("");
   };
 
-  const handleClickCommit = (e) => {
+  const handleClickCommit = (e: React.FormEvent) => {
     if ("" !== valuePasswords) {
       //dispatch(userProfile({ name : valueName, email : valueEmail, password : valuePasswords}))
-      dispatch(userProfile({ name: valueName, email: valueEmail }));
+       // @ts-ignore
+      dispatch(commitProfile({ name: valueName, email: valueEmail }));
     } else {
-      dispatch(userProfile({ name: valueName, email: valueEmail }));
+       // @ts-ignore
+      dispatch(commitProfile({ name: valueName, email: valueEmail }));
     }
   };
 
-  const onChange1 = (e) => {
-    setValueName(e.target.value);
+  const onChange1 = (e: React.FormEvent<HTMLInputElement>) => {
+    const newValue1 = e.currentTarget.value;
+    setValueName(newValue1);
   };
-  const onChange2 = (e) => {
-    setValueEmail(e.target.value);
+  const onChange2 = (e: React.FormEvent<HTMLInputElement>) => {
+    const newValue2 = e.currentTarget.value;
+    setValueEmail(newValue2);
   };
-  const onChange3 = (e) => {
-    setValuePasswords(e.target.value);
+  const onChange3 = (e: React.FormEvent<HTMLInputElement>) => {
+    const newValue3 = e.currentTarget.value;
+    setValuePasswords(newValue3);
   };
 
   // const onIconClickName = (e) => {
@@ -74,7 +80,7 @@ export default function Profile() {
             value={valueEmail}
             placeholder={"Логин"}
             name={"email"}
-            icon="EditIcon"
+            //icon="EditIcon"
             extraClass="mb-2"
           />
 
@@ -83,7 +89,7 @@ export default function Profile() {
             value={valuePasswords}
             placeholder={"Пароль"}
             name={"password"}
-            icon="EditIcon"
+           // icon="EditIcon"
             extraClass="mb-2"
           />
         </div>
