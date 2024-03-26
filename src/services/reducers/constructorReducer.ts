@@ -1,11 +1,19 @@
-import { createSlice, nanoid } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice, nanoid } from "@reduxjs/toolkit";
+import { TElement } from "../../utils/types";
+
+interface TSliceState { 
+  bun: TElement | null;
+  ingredients: Array<TElement>;
+  dragIndex?: null | number;
+  hoverIndex?: null | number;
+} 
 
 const initialState = {
   bun: null,
   ingredients: [],
   dragIndex: null,
   hoverIndex: null,
-};
+} satisfies TSliceState as TSliceState
 
 export const burgerSlice = createSlice({
   name: "burger",
@@ -24,7 +32,7 @@ export const burgerSlice = createSlice({
         (element) => element.key !== action.payload
       );
     },
-    addConstructorBun(state, action) {
+    addConstructorBun(state, action:PayloadAction<TElement>) {
       state.bun = action.payload;
     },
     clearConstructor(state) {
@@ -32,11 +40,11 @@ export const burgerSlice = createSlice({
       state.ingredients = [];
     },
     addConstructorItem: {
-      reducer: (state, action) => {
+      reducer: (state, action:PayloadAction<TElement>) => {
         state.ingredients.push(action.payload);
       },
-      prepare: (ingredients) => {
-        const key = nanoid();
+      prepare (ingredients: TElement)  {
+        const key:string = nanoid();
         return { payload: { ...ingredients, key } };
       },
     },
@@ -51,3 +59,7 @@ export const {
   clearConstructor,
   spliceConstructorItem,
 } = burgerSlice.actions;
+
+type TActionCreators = typeof burgerSlice.actions;
+
+export type TBurgerActions = ReturnType<TActionCreators[keyof TActionCreators]>;

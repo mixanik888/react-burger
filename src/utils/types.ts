@@ -13,17 +13,47 @@ export type TElement = {
   image_mobile: string,
   image_large: string,
   __v: number,
-  key: string
+  key?: string
 
 }
 
-export type TServerResponse<T> = {
-  success: boolean;
-} & T;
+export interface TUserKey {
+  name?: string;
+  password?: string;
+  email?: string;
+}
+
+
+export type TUserResponse = TServerResponse<{
+  user: TUserKey;
+  refreshToken?: string;
+  accessToken?: string;
+}>
+
+export interface TOrderKey {
+  status: string;
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
+  number:number,
+  price: number,
+  _id: string,
+  ingredients: Array<TElement>;
+}
+
+export type TOrderResponse = {
+  success?: boolean;
+  order?: TOrderKey;
+  name?: string;
+}
 
 export type TIngredientResponse = TServerResponse<{
   data: Array<TElement>;
 }>
+
+export type TServerResponse<T> = {
+  success: boolean;
+} & T;
 
 export type THeaders = {
   [key:string] : string

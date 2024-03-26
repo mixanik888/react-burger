@@ -6,7 +6,7 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./Register.module.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "../../services/store";
 
 import {
   setEmail,
@@ -17,32 +17,31 @@ import {
 
 export default function Register() {
   const dispatch = useDispatch();
-  // @ts-ignore
+
   const auth = useSelector((store) => store.auth);
   const navigate = useNavigate();
 
-  const onChangeName = (e: React.FormEvent<HTMLInputElement>) => {
-    // @ts-ignore
+  const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setName(e.target.value));
   };
 
-  const onChangeEmail = (e: React.FormEvent<HTMLInputElement>) => {
-    // @ts-ignore
+  const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+
     dispatch(setEmail(e.target.value));
   };
 
-  const onChangePassword = (e: React.FormEvent<HTMLInputElement>) => {
-    // @ts-ignore
+  const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+
     dispatch(setPassword(e.target.value));
   };
 
   const handleClickRegister = () => {
-    // @ts-ignore
-    dispatch( userRegister({
+
+    dispatch( userRegister(JSON.stringify({
         name: auth.name,
         password: auth.password,
         email: auth.email,
-      })
+      }))
     );
   };
 
@@ -60,7 +59,7 @@ export default function Register() {
         <div className="mt-6 mb-6">
           <Input
             onChange={onChangeName}
-            value={auth.name}
+            value= {(auth.name !== undefined ? auth.name:"")}
             placeholder={"Имя"}
             name={"Name"}
             type={"text"}
@@ -70,14 +69,14 @@ export default function Register() {
         
           <EmailInput
             onChange={onChangeEmail}
-            value={auth.email}
+            value={(auth.email !== undefined ? auth.email:"")}
             name={"email"}
             extraClass="mb-2"
           />
        
           <PasswordInput
             onChange={onChangePassword}
-            value={auth.password}
+            value={(auth.password !== undefined ? auth.password:"")}
             name={"password"}
             extraClass="mb-2"
           />

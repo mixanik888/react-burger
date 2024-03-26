@@ -6,7 +6,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { useDrag } from "react-dnd";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/store";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import {
@@ -21,10 +21,9 @@ interface DragItem {
 
 const Ingredient: FC<DragItem> = ({element}) => {
   const dispatch = useDispatch();
-  // @ts-ignore
+
   const { bun, ingredients } = useSelector((store) => store.burger);
-    // @ts-ignore
-    const data = useSelector((store) => store.data.data1.data);
+  const data = useSelector((store) => store.data.data1);
 
   const location = useLocation();
   const ingId = element['_id'];
@@ -57,11 +56,10 @@ const Ingredient: FC<DragItem> = ({element}) => {
   const handleElementClick = (e:  React.MouseEvent<HTMLDivElement>) => {
     const element = data.find((item:TElement) => item._id === e.currentTarget.id);
 
-    if (element.type !== "bun") {
-       // @ts-ignore
+    if (element !== undefined  &&  element.type !== "bun") {
+
       dispatch(addConstructorItem(element));
-    } else {
-       // @ts-ignore
+    } else if (element !== undefined) {
       dispatch(addConstructorBun(element));
     }
   };
@@ -69,7 +67,7 @@ const Ingredient: FC<DragItem> = ({element}) => {
 
   return (
     <div key={element._id} className={styles.ingredient} ref={drag}>
-      {count > 0 && (
+      {count !== undefined  && count > 0 && (
         <div className={styles.counter}>
           <Counter count={count} size="default" />
         </div>

@@ -2,14 +2,13 @@ import React, { useRef } from "react";
 import styles from "./BurgerIngredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import Ingredient from "../Ingredient/Ingredient";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../services/store";
 import { TElement } from "../../utils/types";
 
 export default function BurgerIngredients() {
 
   const [current, setCurrent] = React.useState("BunTab");
-  // @ts-ignore
-  const data = useSelector((store) => store.data.data1.data);
+  const data = useSelector((store) => store.data.data1);
 
   const scrollToBun = useRef<HTMLDivElement>(null);
   const scrollToSauce = useRef<HTMLDivElement>(null);

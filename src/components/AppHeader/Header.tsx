@@ -8,10 +8,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../services/store";
 
 export default function AppHeader() {
- // @ts-ignore
+ 
   const auth = useSelector((store) => store.auth);
 
   const activeState = ({ isActive }: { isActive: boolean }) => {

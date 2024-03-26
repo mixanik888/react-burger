@@ -5,7 +5,7 @@ import IngredientDetails from "../Ingredientdetails/Ingredientdetails";
 
 import Modal from "../Modal/Modal";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/store";
 import { loadIngredient, setUser } from "../../services/actions/actions";
 
 import HomeBurger from "../../pages/Home";
@@ -27,14 +27,13 @@ export default function App() {
   const background = location.state && location.state.background;
 
   const dispatch = useDispatch();
-   // @ts-ignore
   const { loading, error, data1 } = useSelector((store) => store.data);
 
   React.useEffect(() => {
-    // @ts-ignore
+
     dispatch(loadIngredient());
-    // @ts-ignore
     dispatch(setUser());
+
   }, [dispatch]);
 
   if (loading || data1.length === 0) {
