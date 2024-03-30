@@ -1,12 +1,21 @@
 import React from "react";
 import { ListOrdersCart } from "../ListOrdersCart/ListOrdersCart";
 import styles from "./ListOrders.module.css";
-import {  useSelector } from "../../services/store";
+import {  useDispatch, useSelector } from "../../services/store";
 import { TOrderKey } from "../../utils/types";
+import { ApiConfig } from "../../utils/burger-api";
+import { wsInit } from "../../services/actions/middlewareActions";
 
 
 export default function LisOrders() {
-  //const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  
+  React.useEffect(() => {
+    
+    dispatch(wsInit(`${ApiConfig.baseURLWS}/all`));
+    
+  }, [dispatch]);
+  
   const wsOrders = useSelector((store) => store.wsOder);
   const doneOrder = React.useMemo(
     () => wsOrders.orders.filter((item: TOrderKey) => item.status === "done"),
@@ -17,8 +26,6 @@ export default function LisOrders() {
     () => wsOrders.orders.filter((item: TOrderKey) => item.status !== "done"),
     [wsOrders.orders]
   );
-
-  //state={{ background: location }} 
 
   return (
     <main className={styles.content}>

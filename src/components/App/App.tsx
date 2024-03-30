@@ -20,10 +20,9 @@ import ProfilePage from "../../pages/Profile";
 import { useLocation, useNavigate } from "react-router-dom";
 import { OnlyAutch1, OnlyUnAutch1 } from "./Protected-route";
 
-import { wsInit, wsInitUser } from "../../services/actions/middlewareActions";
 import Feed from "../../pages/Feed";
 import ListOrdersDetails from "../ListOrdersDetails/ListOrdersDetails";
-import { ApiConfig } from "../../utils/burger-api";
+
 
 export default function App() {
   const location = useLocation();
@@ -37,19 +36,7 @@ export default function App() {
 
     dispatch(loadIngredient());
     dispatch(setUser());
-    dispatch(wsInit(`${ApiConfig.baseURLWS}/all`));
     
-    const accessToken = localStorage.getItem("accessToken");
-
-
-    if (accessToken !== null && accessToken.startsWith("Bearer ")){
-      const token = accessToken.replace("Bearer ", "");
-      const URL = `${ApiConfig.baseURLWS}?token=${token}`;
-
-      dispatch(wsInitUser(URL));
-
-    } 
-
   }, [dispatch]);
 
   if (loading || data1.length === 0) {
