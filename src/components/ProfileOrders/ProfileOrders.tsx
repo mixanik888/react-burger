@@ -1,13 +1,27 @@
 import React from "react";
 import styles from "./ProfileOrders.module.css";
+import {  useSelector } from "../../services/store";
+import { TOrderKey } from "../../utils/types";
+import { ListOrdersCart } from "../ListOrdersCart/ListOrdersCart";
+
 
 export default function ProfileOrders() {
+
+  const wsOrders = useSelector((store) => store.wsOderUser);
+
+  if (wsOrders.status !== 0 || wsOrders.orders.length === 0) {
+    return <h2>Загрузка...</h2>;
+  }
+
   return (
     <main className={styles.section}>
       <form className={styles.section}>
-      <h3 className={`${styles.title} text text_type_main-medium`}>
-        Здесь будет история заказа
-      </h3>
+       
+      <div className={styles.scroll}>
+          {wsOrders.orders.map((element: TOrderKey, index: number) => {
+            return <ListOrdersCart  key={element._id}  actionOrder={element} isProfileUser={true}/>
+          })}
+          </div>
       </form>
     </main>
   );

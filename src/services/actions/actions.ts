@@ -5,7 +5,7 @@ import {
   ApiConfig,
   fetchWith,
 } from "../../utils/burger-api";
-import { TApiConfig, TOrderResponse, TRefreshToken, TUserResponse } from "../../utils/types";
+import { TApiConfig, TOrderFindResponse, TOrderResponse, TRefreshToken, TUserResponse } from "../../utils/types";
 
 export const setName = createAction<string, "setName">("setName");
 export const setPassword = createAction<string, "setPassword">("setPassword");
@@ -16,6 +16,17 @@ export const loadIngredient = createAsyncThunk("loadIngredient", async () => {
   return await getProjectIngredients();
 });
 
+export const findOrderToNumber = createAsyncThunk("findOrderToNumber",
+    async (id:string) => {
+
+    return (fetchWith(`${ApiConfig.baseURL}/orders/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+    })) as TOrderFindResponse
+  }
+);
 
 export const addOrder = createAsyncThunk(
   "loadAddOrder",

@@ -38,13 +38,36 @@ export interface TOrderKey {
   number:number,
   price: number,
   _id: string,
-  ingredients: Array<TElement>;
+  ingredients: Array<string>;
+}
+
+export interface TOrderKeyOwner {
+  status: string;
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
+  number:number,
+  price: number,
+  _id: string,
+  owner: string,
+  ingredients: Array<string>;
 }
 
 export type TOrderResponse = {
   success?: boolean;
   order?: TOrderKey;
   name?: string;
+}
+
+export interface TOrderFindResponse {
+  success?: boolean;
+  orders?: Array<TOrderKeyOwner>;
+}
+
+export type TOrderWSResponse = {
+  orders: Array<TOrderKey>;
+  total: number;
+  totalToday: number;
 }
 
 export type TIngredientResponse = TServerResponse<{
@@ -61,6 +84,7 @@ export type THeaders = {
 
 export type TApiConfig = {
   baseURL : string
+  baseURLWS : string
   headers: THeaders 
 }
 

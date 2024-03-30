@@ -42,7 +42,7 @@ export default function AppHeader() {
             <ListIcon type="primary" />
           </div>
           <p className={`${stylesH.title} text text_type_main-default ml-2`}>
-            <NavLink to="/listOrder" style={activeState}>
+            <NavLink to="/feed" style={activeState}>
               Лента заказов
             </NavLink>
           </p>

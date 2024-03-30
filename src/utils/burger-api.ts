@@ -11,6 +11,7 @@ export const getProjectIngredients = () => {
 
 export const ApiConfig:TApiConfig = {
   "baseURL": "https://norma.nomoreparties.space/api",
+  "baseURLWS": "wss://norma.nomoreparties.space/orders",
   "headers": {
     "Content-Type": "application/json;charset=utf-8",
     //"authorization": localStorage.getItem("accessToken"),
