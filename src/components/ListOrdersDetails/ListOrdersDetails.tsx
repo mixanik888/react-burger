@@ -48,7 +48,7 @@ export default function ListOrdersDetails() {
 
   return (
     <main className={styles.main}>
-      <div>
+       <div>
         <h3 className={`${styles.title} text text_type_main-medium`}>#{id}</h3>
         <div className={`${styles.text} text text_type_main-medium`}>
           {dataOrder.name}
@@ -59,13 +59,13 @@ export default function ListOrdersDetails() {
         <div className={`${styles.text} text text_type_main-medium`}>
           Состав:
         </div>
-      </div>
-      <div className={styles.scroll}>
+      </div> 
+       <div className={styles.scroll}>
         {ItemOrderIngredients.map((element: string, index: number) => {
           return (
-            <div className={styles.row}>
-              <img
-                key={element + "_" + index}
+            <div key={index} className={styles.row}>
+               <img
+                key={index}
                 className={styles.element__image}
                 src={
                   data.filter((item: TElement) => item._id === element).length >
@@ -81,36 +81,34 @@ export default function ListOrdersDetails() {
                         .name
                     : ""
                 }
-              />
-              <div className={`text text_type_main-default`}>
-                {data.filter((item: TElement) => item._id === element).length >
-                0
+              /> 
+               <div className={`text text_type_main-default`}>
+                {data.filter((item: TElement) => item._id === element).length > 0
                   ? data.filter((item: TElement) => item._id === element)[0]
                       .name
-                  : ""}{" "}
-              </div>
-              <div className={styles.price}>
-                1 x{" "}
+                  : ""}
+              </div> 
+               <div className={styles.price}>
+                1 x
                 {data.filter((item: TElement) => item._id === element).length >
                 0
                   ? data.filter((item: TElement) => item._id === element)[0]
                       .price
                   : ""}
-                <CurrencyIcon type="primary" />
-              </div>
+                <CurrencyIcon key={index} type="primary" />
+              </div> 
             </div>
           );
         })}
       </div>
-      <div className={styles.row_bottom9}>
+       <div className={styles.row_bottom9}>
  
         <FormattedDate date={new Date(dataOrder.updatedAt)} />
-        <div> </div>
         <div className={styles.price}>
           {PriceTotal}
           <CurrencyIcon type="primary" />
         </div>
-      </div>
+      </div>  
     </main>
   );
 }

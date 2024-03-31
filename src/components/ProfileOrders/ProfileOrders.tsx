@@ -4,18 +4,14 @@ import {  useDispatch, useSelector } from "../../services/store";
 import { TOrderKey } from "../../utils/types";
 import { ListOrdersCart } from "../ListOrdersCart/ListOrdersCart";
 import { ApiConfig } from "../../utils/burger-api";
-import { wsInitUser } from "../../services/actions/middlewareActions";
+import { onCloseUser, wsInitUser } from "../../services/actions/middlewareActions";
 
 
 export default function ProfileOrders() {
   const dispatch = useDispatch();
   React.useEffect(() => {
 
-    
-    
     const accessToken = localStorage.getItem("accessToken");
-
-
     if (accessToken !== null && accessToken.startsWith("Bearer ")){
       const token = accessToken.replace("Bearer ", "");
       const URL = `${ApiConfig.baseURLWS}?token=${token}`;
@@ -23,6 +19,11 @@ export default function ProfileOrders() {
       dispatch(wsInitUser(URL));
 
     } 
+
+    return() => {
+      dispatch(onCloseUser());
+    }
+    
 
   }, [dispatch]);
 

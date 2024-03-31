@@ -5,18 +5,18 @@ import { ApiConfig, refreshToken } from "../utils/burger-api";
 
 
 export type TwsActionsTypes = {
-    wsInitUser:ActionCreatorWithPayload<string>, 
-    wsDisconnectUser: ActionCreatorWithoutPayload,
+    wsInit:ActionCreatorWithPayload<string>, 
+    wsDisconnect: ActionCreatorWithoutPayload,
     wsSendMessage?:ActionCreatorWithPayload<any>, 
-    onOpenUser:ActionCreatorWithoutPayload, 
-    onCloseUser:ActionCreatorWithoutPayload, 
-    onErrorUser:ActionCreatorWithPayload<string>, 
-    onMessageUser:ActionCreatorWithPayload<any>,
+    onOpen:ActionCreatorWithoutPayload, 
+    onClose:ActionCreatorWithoutPayload, 
+    onError:ActionCreatorWithPayload<string>, 
+    onMessage:ActionCreatorWithPayload<any>,
 }
 
 //wsInitUser , onOpenUser, onCloseUser, onErrorUser, onMessageUser, wsDisconnectUser
 
-export const socketMiddlewareUser = (
+export const socketMiddleware = (
   wsActions: TwsActionsTypes,
   withTokenRefresh: boolean 
 ): Middleware<{}, RootState> => {
@@ -24,24 +24,23 @@ export const socketMiddlewareUser = (
     let socket: WebSocket | null = null;
   
     const {
-      wsInitUser , onOpenUser, onCloseUser, onErrorUser, onMessageUser, wsDisconnectUser
+      wsInit , onOpen, onClose, onError, onMessage, wsDisconnect
     } = wsActions;
 
     return (next) => (action) => {
       const { dispatch } = store;
       //const { type, payload } = action;
 
-
-      if (wsInitUser.match(action)) {
+      if (wsInit.match(action)) {
         const url = action.payload;
         socket = new WebSocket(url);
        
         socket.onopen = (event) => {
-          dispatch(onOpenUser());
+          dispatch(onOpen());
         };
 
         socket.onerror = (event) => {
-          dispatch(onErrorUser(event.type.toString()));
+          dispatch(onError(event.type.toString()));
         };
 
         socket.onmessage = (event) => {
@@ -55,19 +54,19 @@ export const socketMiddlewareUser = (
               const token = refreshData.accessToken.replace("Bearer ", "");
               const URL = `${ApiConfig.baseURLWS}?token=${token}`;
 
-              dispatch(wsInitUser(URL));
+              dispatch(wsInit(URL));
             });
           } else {
-            dispatch(onMessageUser(parsedData));
+            dispatch(onMessage(parsedData));
           }
         };
 
         socket.onclose = (event) => {
-          dispatch(onCloseUser());
+          dispatch(onClose());
         };
       }
 
-      if (wsDisconnectUser && wsDisconnectUser.match(action) && socket) {
+      if (wsDisconnect && wsDisconnect.match(action) && socket) {
         socket.close();
       }
       next(action);

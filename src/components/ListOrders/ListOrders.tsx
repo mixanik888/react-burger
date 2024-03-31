@@ -4,7 +4,7 @@ import styles from "./ListOrders.module.css";
 import {  useDispatch, useSelector } from "../../services/store";
 import { TOrderKey } from "../../utils/types";
 import { ApiConfig } from "../../utils/burger-api";
-import { wsInit } from "../../services/actions/middlewareActions";
+import { onClose, wsDisconnect, wsInit } from "../../services/actions/middlewareActions";
 
 
 export default function LisOrders() {
@@ -13,6 +13,10 @@ export default function LisOrders() {
   React.useEffect(() => {
     
     dispatch(wsInit(`${ApiConfig.baseURLWS}/all`));
+
+    return() => {
+      dispatch(onClose());
+    }
     
   }, [dispatch]);
   

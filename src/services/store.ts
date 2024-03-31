@@ -21,19 +21,29 @@ import { wsReducer } from "./reducers/middlewareReducer";
 import { wsReducerUser } from "./reducers/middlewareReducerUser";
 import { TwsActions } from "./actions/middlewareActions";
 import { TwsActionsUser } from "./actions/middlewareActions";
-import { socketMiddleware } from "./socket-Middleware";
 
-import { wsInit, onOpen, onClose, onError, onMessage, wsDisconnect, wsInitUser, onOpenUser, onCloseUser, onErrorUser, onMessageUser, wsDisconnectUser  } from "./actions/middlewareActions";
-import { socketMiddlewareUser } from "./socket-MiddlewareUser";
+import { wsInit, onOpen, onClose, onError, onMessage, wsDisconnect, 
+  wsInitUser, onOpenUser, onCloseUser, onErrorUser, onMessageUser, wsDisconnectUser  } from "./actions/middlewareActions";
+import { socketMiddleware } from "./socket-MiddlewareUser";
 
 const wsActions = {
 
-  wsInit, onOpen, onClose, onError, onMessage, wsDisconnect
+  wsInit: wsInit,
+  onOpen: onOpen, 
+  onClose: onClose, 
+  onError: onError, 
+  onMessage:  onMessage, 
+  wsDisconnect: wsDisconnect
 
 }
 
 const wsActionsUser = {
-  wsInitUser , onOpenUser, onCloseUser, onErrorUser, onMessageUser, wsDisconnectUser
+  wsInit: wsInitUser , 
+  onOpen: onOpenUser, 
+  onClose: onCloseUser, 
+  onError: onErrorUser, 
+  onMessage: onMessageUser, 
+  wsDisconnect: wsDisconnectUser
 
 }
 
@@ -65,7 +75,7 @@ export type AppActions =
  
   const store = createStore({
      reducer:RootReducer,
-    middleware: (getDefaultMiddleware) =>  getDefaultMiddleware().concat(socketMiddleware(wsActions),socketMiddlewareUser(wsActionsUser, true))
+    middleware: (getDefaultMiddleware) =>  getDefaultMiddleware().concat(socketMiddleware(wsActions, false),socketMiddleware(wsActionsUser, true))
    });
  
    export default store;
