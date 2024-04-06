@@ -1,6 +1,6 @@
 
 import { FC, ReactElement } from "react";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../services/store";
 import { Navigate, useLocation } from "react-router";
 
 
@@ -12,9 +12,9 @@ const Protected: FC<TProtected> = ({ onlyUnAutch = false, component }) => {
   //isAuthChecked проверяем что проверка токена пройзведена
   //onlyUnAutch - пользователь не авторизован
   //const isAuthChecked = useSelector ((store) => store.user.isAuthChecked);
-  // @ts-ignore
+  
   const user = useSelector((store) => store.auth.isSetUser);
-  // @ts-ignore
+
   const load = useSelector((store) => store.auth.loading);
 
   let location = useLocation();

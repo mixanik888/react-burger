@@ -4,8 +4,8 @@ import { useLocation } from "react-router";
 
 import styles from "../components/Profile/Profile.module.css";
 import ProfileOrders from "../components/ProfileOrders/ProfileOrders";
-import { useDispatch } from "react-redux";
 import { signOut } from "../services/actions/actions";
+import { useDispatch } from "../services/store";
 
 export default function ProfilePage() {
   const dispatch = useDispatch();
@@ -18,7 +18,6 @@ export default function ProfilePage() {
   };
 
   const onClick = () => {
-    // @ts-ignore
     dispatch(signOut());
   };
 

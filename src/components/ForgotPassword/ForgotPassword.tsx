@@ -7,24 +7,24 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "../../services/store";
 import { setEmail, callEmailToForget } from "../../services/actions/actions";
 
 export default function ForgotPassword() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // @ts-ignore
+
   const auth = useSelector((store) => store.auth);
 
   const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
+
     dispatch(setEmail(e.target.value));
   };
 
   const handleClick = (e: React.FormEvent<HTMLFormElement>) => {
     if (auth.email !== "") {
-      // @ts-ignore
-      dispatch(callEmailToForget({ email: auth.email }));
+
+      dispatch(callEmailToForget(JSON.stringify({ email: auth.email })));
     }
   };
 
@@ -45,7 +45,7 @@ export default function ForgotPassword() {
           <EmailInput
             placeholder={"Укажите e-mail"}
             onChange={onChangeEmail}
-            value={auth.email}
+            value={(auth.email !== undefined ? auth.email:"")}
             name={"email"}
             isIcon={false}
           />

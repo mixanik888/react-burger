@@ -1,7 +1,7 @@
 import { useCallback,useState } from "react";
 import styles from "./BurgerConstructor.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/store";
 import {
   addConstructorBun,
   addConstructorItem,
@@ -24,10 +24,10 @@ interface DragItem {
 
 export default function BurgerConstructor() {
   const dispatch = useDispatch();
- // @ts-ignore
+
   const { bun, ingredients } = useSelector((store) => store.burger);
   const [isOpen, setOpen] = useState(false);
-  // @ts-ignore
+
   const user = useSelector((store) => store.auth.isSetUser);
   const navigate = useNavigate();
 
@@ -44,10 +44,10 @@ export default function BurgerConstructor() {
 
   const addConstructorElement = (element:TElement) => {
     if (element.type !== "bun") {
-      // @ts-ignore
+      
       dispatch(addConstructorItem(element));
     } else {
-      // @ts-ignore
+      
       dispatch(addConstructorBun(element));
     }
   };
@@ -55,7 +55,7 @@ export default function BurgerConstructor() {
 
   const moveElement = useCallback(
     (dragIndex:number, hoverIndex:number) => {
-      // @ts-ignore
+    
       dispatch(spliceConstructorItem({
           dragIndex: { dragIndex },
           hoverIndex: { hoverIndex },
@@ -83,14 +83,13 @@ export default function BurgerConstructor() {
        }
 
        ingredientsList.push(bun._id);
-       // @ts-ignore 
+
        dispatch(addOrder(ingredientsList));
-       // @ts-ignore
        dispatch(clearConstructor());
        setOpen(!isOpen);
      }
     }
-   };
+   }
 
    const closeModal = () => {
     setOpen(!isOpen);
@@ -108,7 +107,7 @@ export default function BurgerConstructor() {
             <ConstructorElement
               type="top"
               isLocked={true}
-              key={bun._Id}
+              key={bun._id}
               text={`${bun.name} (верх)`}
               price={bun.price}
               thumbnail={bun.image}

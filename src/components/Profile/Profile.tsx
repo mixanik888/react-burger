@@ -6,36 +6,35 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./Profile.module.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "../../services/store";
 import { commitProfile } from "../../services/actions/actions";
 
 export default function Profile() {
   const dispatch = useDispatch();
-   // @ts-ignore
+  
   const auth = useSelector((store) => store.auth);
 
-  const [valueName, setValueName] = React.useState<string>(auth.name);
+  const [valueName, setValueName] = React.useState<string>((auth.name !== undefined ? auth.name:""));
   //const [isNotEditName, setIsNotEditName] = React.useState(false);
 
-  const [valueEmail, setValueEmail] = React.useState<string>(auth.email);
+  const [valueEmail, setValueEmail] = React.useState<string>( (auth.email !== undefined ? auth.email:""));
   //const [isNotEditNameEmail, setIsNotEditNameEmail] = React.useState(false);
 
   const [valuePasswords, setValuePasswords] = React.useState<string>("");
 
   const handleClickBack = () => {
-    setValueName(auth.name);
-    setValueEmail(auth.email);
+    setValueName((auth.name !== undefined ? auth.name:""));
+    setValueEmail((auth.email !== undefined ? auth.email:""));
     setValuePasswords("");
   };
 
   const handleClickCommit = (e: React.FormEvent) => {
     if ("" !== valuePasswords) {
-      //dispatch(userProfile({ name : valueName, email : valueEmail, password : valuePasswords}))
-       // @ts-ignore
-      dispatch(commitProfile({ name: valueName, email: valueEmail }));
+
+      dispatch(commitProfile(JSON.stringify({ name: valueName, email: valueEmail })));
     } else {
-       // @ts-ignore
-      dispatch(commitProfile({ name: valueName, email: valueEmail }));
+
+      dispatch(commitProfile(JSON.stringify({ name: valueName, email: valueEmail })));
     }
   };
 

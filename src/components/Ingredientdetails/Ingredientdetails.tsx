@@ -1,15 +1,14 @@
 import React from "react";
 import styles from "./Ingredientdetails.module.css";
 //import { ingredientType } from "../utils/types";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../services/store";
 import { useParams } from "react-router-dom";
 import { TElement } from "../../utils/types";
 
 
 export default function IngredientDetails() {
   let { ingId } = useParams();
-  // @ts-ignore
-  const data = useSelector((store) => store.data.data1.data);
+  const data = useSelector((store) => store.data.data1);
 
   const actionIngredient = React.useMemo(
     () => data.filter((item:TElement) => item._id === ingId),
@@ -30,7 +29,7 @@ export default function IngredientDetails() {
         alt={actionIngredient[0].name}
       />
       <h3 className={`${styles.title} text text_type_main-medium`}>
-        {actionIngredient.name}
+        {actionIngredient[0].name}
       </h3>
       <div className={styles.caption}>
         <p className="text text_type_main-small">Калории,ккал</p>

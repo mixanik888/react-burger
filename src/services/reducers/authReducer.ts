@@ -11,8 +11,22 @@ import {
   setToken,
   callResetPassword,
   setUser,
-
 } from "../actions/actions";
+
+import { TUserKey } from "../../utils/types";
+
+interface TSliceState { 
+  loading: boolean;
+  isSetUser: boolean;
+  callEmailForgot?: boolean;
+  error?: null|string;
+  name?: string;
+  password?: string;
+  email?: string;
+  user: TUserKey| null;
+  token?: null|string;
+} 
+
 
 const initialState = {
   loading: false,
@@ -20,19 +34,24 @@ const initialState = {
   name: "",
   password: "",
   email: "",
+  user: null,
   isSetUser: false,
   callEmailForgot: false,
   token: "",
-};
+} satisfies TSliceState as TSliceState
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
+  reducers:{
+
+  },
   extraReducers: (builder) => {
     builder
       .addCase(commitProfile.fulfilled, (state, action) => {
         state.name = action.payload.user.name;
         state.email = action.payload.user.email;
+        state.user = action.payload.user;
       })
       .addCase(signOut.pending, (state) => {
         state.loading = true;
@@ -42,6 +61,7 @@ const authSlice = createSlice({
         state.name = "";
         state.password = "";
         state.email = "";
+        state.user = null;
         state.isSetUser = false;
 
         localStorage.setItem("refreshToken", "");
@@ -58,9 +78,11 @@ const authSlice = createSlice({
       })
       .addCase(singIn.fulfilled, (state, action) => {
         state.loading = false;
-        state.name = action.payload.user.name;
-        state.password = "";
-        state.email = action.payload.user.email;
+         state.name = action.payload.user.name;
+         state.password = "";
+         state.email = action.payload.user.email;
+        
+         state.user = action.payload.user;
         state.isSetUser = true;
       })
       .addCase(singIn.rejected, (state, action) => {
@@ -75,9 +97,10 @@ const authSlice = createSlice({
       })
       .addCase(userRegister.fulfilled, (state, action) => {
         state.loading = false;
-        state.name = action.payload.user.name;
-        state.password = "";
-        state.email = action.payload.user.email;
+         state.name = action.payload.user.name;
+         state.password = "";
+         state.email = action.payload.user.email;
+        state.user = action.payload.user;
         state.isSetUser = true;
       })
       .addCase(userRegister.rejected, (state, action) => {
@@ -123,11 +146,12 @@ const authSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(setUser.fulfilled, (state, action) => {
-        if (localStorage.getItem("accessToken") !== null ) {
+        if (action.payload !== undefined && localStorage.getItem("accessToken") !== null ) {
           state.loading = false;
           state.name = action.payload.user.name;
           state.password = "";
           state.email = action.payload.user.email;
+          state.user = action.payload.user;
           state.isSetUser = true;
         } else {
           state.loading = false;
@@ -138,6 +162,7 @@ const authSlice = createSlice({
         state.loading = true;
         state.error = null;
         state.isSetUser = false;
+        state.name = "";
       })
       .addCase(setUser.rejected, (state, action) => {
         state.loading = false;
@@ -148,3 +173,7 @@ const authSlice = createSlice({
 });
 
 export const reducer = authSlice.reducer;
+
+type TActionCreators = typeof authSlice.actions;
+
+export type TAuthActions = ReturnType<TActionCreators[keyof TActionCreators]>;

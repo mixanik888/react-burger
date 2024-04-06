@@ -8,10 +8,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../services/store";
 
 export default function AppHeader() {
- // @ts-ignore
+ 
   const auth = useSelector((store) => store.auth);
 
   const activeState = ({ isActive }: { isActive: boolean }) => {
@@ -42,7 +42,7 @@ export default function AppHeader() {
             <ListIcon type="primary" />
           </div>
           <p className={`${stylesH.title} text text_type_main-default ml-2`}>
-            <NavLink to="/listOrder" style={activeState}>
+            <NavLink to="/feed" style={activeState}>
               Лента заказов
             </NavLink>
           </p>

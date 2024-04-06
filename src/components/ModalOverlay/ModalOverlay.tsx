@@ -1,6 +1,6 @@
-import React, { FC, MouseEventHandler, ReactNode } from "react";
+import React, { FC, MouseEventHandler } from "react";
 import styles from "./ModalOverlay.module.css";
-import PropTypes from "prop-types";
+
 
 type TModalOverlay = {
   onMouseDown: MouseEventHandler;

@@ -1,36 +1,38 @@
 import React from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   EmailInput,
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./Login.module.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "../../services/store";
 import { setEmail, setPassword, singIn } from "../../services/actions/actions";
+
 
 export default function Login() {
   const dispatch = useDispatch();
-  // @ts-ignore
+
   const auth = useSelector((store) => store.auth);
 
   const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
+
     dispatch(setEmail(e.target.value));
   };
 
   const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
+
     dispatch(setPassword(e.target.value));
   };
 
   const handleClickLogin = (e: React.FormEvent) => {
-   // @ts-ignore
-    dispatch(singIn({
-        password: auth.password,
-        email: auth.email,
-      })
-    );
+  
+    const user = {
+      password: (auth.password !== undefined ? auth.password:""),
+      email: (auth.email !== undefined ? auth.email:""),
+    }
+  
+    dispatch(singIn(JSON.stringify(user)));
   };
 
   return (
@@ -41,7 +43,7 @@ export default function Login() {
         <div className="mt-6 mb-6">
           <EmailInput
             onChange={onChangeEmail}
-            value={auth.email}
+            value={(auth.email !== undefined ? auth.email:"")}
             name={"email"}
             isIcon={false}
             extraClass="mb-2"
@@ -49,7 +51,7 @@ export default function Login() {
 
           <PasswordInput
             onChange={onChangePassword}
-            value={auth.password}
+            value={(auth.password !== undefined ? auth.password:"")}
             name={"password"}
             extraClass="mb-2"
           />

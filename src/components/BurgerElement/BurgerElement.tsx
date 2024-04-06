@@ -7,16 +7,16 @@ import {
 import {
   deleteConstructorItem,
 } from "../../services/reducers/constructorReducer";
-import { useDispatch} from "react-redux";
+import { useDispatch} from "../../services/store";
 import type { Identifier, XYCoord } from 'dnd-core'
 import { TElement } from "../../utils/types";
 
 interface DragItem {
-  id: string
+  id?: string
   element: TElement
   index: number
   moveElement: (dragIndex: number, hoverIndex: number) => void
-  key: string
+  key?: string
 }
 
 const BurgerElement: FC <DragItem> = ({ id, element, index, moveElement}) => {
@@ -72,8 +72,7 @@ const BurgerElement: FC <DragItem> = ({ id, element, index, moveElement}) => {
   const opacity = isDragging ? 0 : 1;
   drag(drop(ref));
 
-  const deleteConstructorElement = (e:TElement) => {
-    // @ts-ignore
+  const deleteConstructorElement = (e:TElement) => {  
     dispatch(deleteConstructorItem(e.key));
   };
 

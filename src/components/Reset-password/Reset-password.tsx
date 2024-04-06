@@ -6,7 +6,7 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./Reset-password.module.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "../../services/store";
 import {
   setPassword,
   setToken,
@@ -19,20 +19,17 @@ export default function ResetPassword() {
   const auth = useSelector((store:any) => store.auth);
 
   const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
     dispatch(setPassword(e.target.value));
   };
 
   const onChangeToken = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // @ts-ignore
     dispatch(setToken(e.target.value));
   };
 
   const handleClick = (e: React.FormEvent<HTMLFormElement>) => {
     if (auth.password !== "") {
       dispatch(
-        // @ts-ignore
-        callResetPassword({ password: auth.password, token: auth.token })
+        callResetPassword(JSON.stringify({ password: auth.password, token: auth.token }))
       );
     }
   };
