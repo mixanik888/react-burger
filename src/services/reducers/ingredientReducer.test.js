@@ -37,7 +37,7 @@ describe("Redux store load ingredient", () => {
   expect(
      reducer(undefined, {
        type: actions.loadIngredient.fulfilled.type,
-       payload: data,
+       payload: { data }
      })).toEqual({
         data1: data,
         loading: false,
