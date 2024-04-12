@@ -1,14 +1,14 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { SerializedError, createSlice } from "@reduxjs/toolkit";
 import { loadIngredient } from "../actions/actions";
 import { TElement } from "../../utils/types";
 
 export interface TIngredientsSlice { 
    loading: boolean;
-   error?: null|string;
+   error?: null| SerializedError;
    data1: Array<TElement>;
  } 
 
-const initialState = {
+export const initialState = {
   data1: [],
   loading: false,
   error: null,
@@ -32,7 +32,7 @@ const ingredientsSlice = createSlice({
       })
       .addCase(loadIngredient.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.error;
       });
   },
 });
@@ -40,5 +40,7 @@ const ingredientsSlice = createSlice({
 export const reducer = ingredientsSlice.reducer;
 
 type TActionCreators = typeof ingredientsSlice.actions;
+
+export const actionSlice = ingredientsSlice.actions;
 
 export type TIngredientsActions = ReturnType<TActionCreators[keyof TActionCreators]>;

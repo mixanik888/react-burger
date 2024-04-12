@@ -44,7 +44,7 @@ export default function App() {
   }
 
   if (!loading && error) {
-    return <h2>error: {error}</h2>;
+    return <h2>error: {error.message}</h2>;
   }
 
   const closeModal = () => {

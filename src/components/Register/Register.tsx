@@ -83,7 +83,7 @@ export default function Register() {
         </div>
 
         {auth.error != null ? (
-          <p className="text text_type_main-default">Ошибка: {auth.error}</p>
+          <p className="text text_type_main-default">Ошибка: {auth.error.message}</p>
         ) : null}
 
         <Button type="primary" size="large" htmlType="submit">
