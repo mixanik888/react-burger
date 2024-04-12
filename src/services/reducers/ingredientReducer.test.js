@@ -13,35 +13,36 @@ describe("Redux store load ingredient", () => {
   afterEach(() => {
     jest.restoreAllMocks();
   });
-
-  test('should handle GET_INGREDIENTS_FAILED', () => {
-    let errorText = "Error text";
-    const expActions = [
-      {type: actions.loadIngredient.pending.type},
-      {type: actions.loadIngredient.fulfilled.type, payload: data},
-      {type: actions.loadIngredient.rejected.type, payload: errorText},
-
-    ]
-
-    const store = mockStore(initialState);
-   
-    return store.dispatch( actions.loadIngredient()).then(() => {
-      expect(store.getActions()).toEqual(expActions)
-    })
-
-    
   
-    //   let errorText = "Error text";w
+  test("should return the initial state", () => {
+    expect(reducer(undefined, {})).toEqual(initialState);
+  });
 
-  //  expect(
-  //     reducer(undefined, {
-  //       type: actions.loadIngredient.rejected.type,
-  //       payload: errorText,
-  //     })).toEqual({
-  //        data1: [],
-  //        loading: false,
-  //        error : errorText})
+  test('should handle GET_INGREDIENTS_FAILED', () => { 
+  
+    let errorText = "Error text"
+
+    expect(
+       reducer(undefined, {
+         type: actions.loadIngredient.rejected.type,
+         error: errorText,
+       })).toEqual({
+          data1: [],
+          loading: false,
+          error : errorText})
  });  
+
+ test('should handle GET_INGREDIENTS_fulfilled', () => { 
+  
+  expect(
+     reducer(undefined, {
+       type: actions.loadIngredient.fulfilled.type,
+       payload: data,
+     })).toEqual({
+        data1: data,
+        loading: false,
+        error : null})
+});  
 
 
 
@@ -59,8 +60,6 @@ describe("Redux store load ingredient", () => {
   //          error : errorText})
   //  });    
 
-  test("should return the initial state", () => {
-    expect(reducer(undefined, {})).toEqual(initialState);
-  });
+ 
 
 });

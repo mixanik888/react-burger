@@ -12,19 +12,30 @@ describe("Redux store autch ", () => {
       });
 
     
-    // test('should handle GET_signOut.rejected', () => {
+     test('should handle GET_signOut.rejected', () => {
 
-    //     let errorText = "Error text";
+         let errorText = "Error text";
 
-    //  expect(
-    //     reducer(undefined, {
-    //       type: actions.signOut.rejected.type,
-    //       payload: errorText,
-    //     })).toEqual({
-    //         loading : false,
-    //       error : errorText})
+      expect(
+         reducer(undefined, {
+           type: actions.signOut.rejected.type,
+           error: errorText,
+        })).toEqual({
+            loading : false,
+            error : errorText,
+            callEmailForgot: false,
+            email: "",
+            isSetUser: false,
+            loading: false,
+            name: "",
+            password: "",
+            token: "",
+            user: null
+          }
+          
+          )
 
 
-    // });  
+     });  
 
 })
