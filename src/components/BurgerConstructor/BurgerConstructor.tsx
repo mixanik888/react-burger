@@ -163,7 +163,7 @@ export default function BurgerConstructor() {
             size="large"
             htmlType="submit"
             onClick={handleOrderToBayClick}
-            data-testId="buttonBay"
+            data-testid="buttonBay"
           >
             Оформить заказ
           </Button>

@@ -93,12 +93,12 @@ export const commitProfile = createAsyncThunk("commitProfile", async (json:strin
 });
 
 export const setUser = createAsyncThunk("setUser", async () => {
-  if (localStorage.getItem("accessToken") !== null) {
+  if (localStorage.getItem("accessToken") !== null && localStorage.getItem("accessToken") !== "" ) {
     const headers = (ApiConfig as TApiConfig).headers;
     const accessToken = localStorage.getItem("accessToken");
     headers.authorization = accessToken !== null ? accessToken : "";
 
-    return (await fetchWith(`${ApiConfig.baseURL}/auth/user`, {
+    return (await fetchWithRefresh(`${ApiConfig.baseURL}/auth/user`, {
       method: "GET",
       headers: headers,
     })) as TUserResponse;

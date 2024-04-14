@@ -7,7 +7,7 @@ type TModalOverlay = {
 }
 
 const ModalOverlay: FC<TModalOverlay> = ({ onMouseDown }) => {
-  return <div className={styles.overlay} onMouseDown={onMouseDown} data-testId="modalOverlay"></div>;
+  return <div className={styles.overlay} onMouseDown={onMouseDown} data-testid="modalOverlay"></div>;
 }
 
 
