@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { SerializedError, createSlice } from "@reduxjs/toolkit";
 import {
   singIn,
   userRegister,
@@ -19,7 +19,7 @@ interface TSliceState {
   loading: boolean;
   isSetUser: boolean;
   callEmailForgot?: boolean;
-  error?: null|string;
+  error?: null| SerializedError;
   name?: string;
   password?: string;
   email?: string;
@@ -28,7 +28,7 @@ interface TSliceState {
 } 
 
 
-const initialState = {
+export const initialState = {
   loading: false,
   error: null,
   name: "",
@@ -69,7 +69,7 @@ const authSlice = createSlice({
       })
       .addCase(signOut.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.error;
       })
       .addCase(singIn.pending, (state) => {
         state.loading = true;
@@ -87,7 +87,7 @@ const authSlice = createSlice({
       })
       .addCase(singIn.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.error;
         state.isSetUser = false;
       })
       .addCase(userRegister.pending, (state) => {
@@ -105,7 +105,7 @@ const authSlice = createSlice({
       })
       .addCase(userRegister.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.error;
         state.isSetUser = false;
       })
       .addCase(setName, (state, action) => {
@@ -131,7 +131,7 @@ const authSlice = createSlice({
       .addCase(callEmailToForget.rejected, (state, action) => {
         state.loading = false;
         state.callEmailForgot = false;
-        state.error = action.error.message;
+        state.error = action.error
       })
       .addCase(callResetPassword.fulfilled, (state, action) => {
         state.loading = false;
@@ -143,7 +143,7 @@ const authSlice = createSlice({
       })
       .addCase(callResetPassword.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.error;
       })
       .addCase(setUser.fulfilled, (state, action) => {
         if (action.payload !== undefined && localStorage.getItem("accessToken") !== null ) {
@@ -166,7 +166,7 @@ const authSlice = createSlice({
       })
       .addCase(setUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        state.error = action.error
         state.isSetUser = false;
       });
   },

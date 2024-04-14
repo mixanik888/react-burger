@@ -13,7 +13,7 @@ export default function OrderDetails() {
   }
 
   if (!orderD.loading && orderD.error !== null) {
-    return <h2>error: {orderD.error}</h2>;
+    return <h2>error: {orderD.error?.message}</h2>;
   }
 
   const numberOrder =  (orderD.order !== undefined ? orderD.order.number :"")

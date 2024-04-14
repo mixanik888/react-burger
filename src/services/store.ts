@@ -2,7 +2,6 @@ import {  configureStore as createStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import { reducer as ingredientsReducer } from "./reducers/ingredientReducer";
 import { reducer as orderReducer } from "./reducers/orderReducer";
-import { reducer as actionIngredientReducer } from "./reducers/actionIngredientReducer";
 import { reducer as burgerReducer} from "./reducers/constructorReducer";
 import { reducer as authReducer } from "./reducers/authReducer";
 import { reducer as findOrderReducer } from "./reducers/findOrderToNumberReducer";
@@ -12,7 +11,7 @@ import {
   useSelector as selectorHook,
 } from "react-redux";
 
-import { TActionIngredientActions } from "./reducers/actionIngredientReducer";
+
 import { TAuthActions } from "./reducers/authReducer";
 import { TBurgerActions } from "./reducers/constructorReducer";
 import { TIngredientsActions } from "./reducers/ingredientReducer";
@@ -49,7 +48,6 @@ const wsActionsUser = {
 
 
 export type AppActions =
-  | TActionIngredientActions
   | TAuthActions
   | TBurgerActions
   | TIngredientsActions
@@ -60,7 +58,7 @@ export type AppActions =
 
  const RootReducer = combineReducers({
   data: ingredientsReducer,
-  acIngredient: actionIngredientReducer,
+ // acIngredient: actionIngredientReducer,
   burger: burgerReducer,
   order: orderReducer,
   auth: authReducer, 

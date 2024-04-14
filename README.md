@@ -1,4 +1,7 @@
 
+APP [React App] (https://mixanik888.github.io/react-burger/ )
+
+
 # Необходимые компоненты
 npm install react-redux redux-thunk redux @reduxjs/toolkit react-dnd react-dnd-html5-backend 
 
