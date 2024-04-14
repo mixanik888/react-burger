@@ -1,14 +1,14 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { SerializedError, createSlice } from "@reduxjs/toolkit";
 import { addOrder } from "../actions/actions";
 import { TOrderKey } from "../../utils/types";
 
 interface TSliceState { 
   loading: boolean;
-  error?: null|string;
+  error?: null| SerializedError;
   order?: TOrderKey | null;
 } 
 
-const initialState = {
+export const initialState = {
   loading: false,
   error: null,
   order: null,
@@ -30,8 +30,7 @@ const ordersSlice = createSlice({
       })
       .addCase(addOrder.rejected, (state, action) => {
         state.loading = false;
-        console.log(action);
-        state.error = action.error.message;
+        state.error = action.error;
         state.order = null;
       });
   },

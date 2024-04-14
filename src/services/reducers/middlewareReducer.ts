@@ -6,9 +6,9 @@ import {
     onOpen,
     onMessage,
 } from "../actions/middlewareActions";
-import { TOrderKey, TOrderWSResponse } from "../../utils/types";
+import { TOrderKey } from "../../utils/types";
 
-enum TWebSocketStatus {
+export enum TWebSocketStatus {
     ONLINE,
     OFFLINE,
     CONNECTING,
@@ -22,7 +22,7 @@ export interface TWSSlice {
   totalToday: number;
 }
 
-const initialState:TWSSlice = {
+export const initialState:TWSSlice = {
   status: TWebSocketStatus.OFFLINE,
   connectingError: "",
   orders: [],

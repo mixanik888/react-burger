@@ -25,7 +25,7 @@ export default function ListOrdersDetails() {
   }
 
   if (!dataOrders.loading && dataOrders.error) {
-    return <h2>error: {dataOrders.error}</h2>;
+    return <h2>error: {dataOrders.error.message}</h2>;
   }
 
   if (dataOrders.orders === undefined) {

@@ -4,15 +4,11 @@ import { TElement } from "../../utils/types";
 interface TSliceState { 
   bun: TElement | null;
   ingredients: Array<TElement>;
-  dragIndex?: null | number;
-  hoverIndex?: null | number;
 } 
 
-const initialState = {
+export const initialState = {
   bun: null,
-  ingredients: [],
-  dragIndex: null,
-  hoverIndex: null,
+  ingredients: []
 } satisfies TSliceState as TSliceState
 
 export const burgerSlice = createSlice({
@@ -63,3 +59,5 @@ export const {
 type TActionCreators = typeof burgerSlice.actions;
 
 export type TBurgerActions = ReturnType<TActionCreators[keyof TActionCreators]>;
+
+export const action = burgerSlice.actions;

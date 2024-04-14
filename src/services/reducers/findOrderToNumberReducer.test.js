@@ -1,8 +1,8 @@
 import * as actions from "../actions/actions";
-import { initialState, reducer } from "./ingredientReducer";
-import { data } from "../../utils/test-constants";
+import { initialState, reducer } from "./findOrderToNumberReducer";
+import { ordersData as orders } from "../../utils/test-constants";
 
-describe("Redux store load ingredient", () => {
+describe("Redux store findOrder", () => {
   afterEach(() => {
     jest.restoreAllMocks();
   });
@@ -11,41 +11,41 @@ describe("Redux store load ingredient", () => {
     expect(reducer(undefined, {})).toEqual(initialState);
   });
 
-  test("should handle GET_INGREDIENTS_FAILED", () => {
+  test("should handle GET_findOrder_FAILED", () => {
     let errorText = "Error text";
 
     expect(
       reducer(undefined, {
-        type: actions.loadIngredient.rejected.type,
+        type: actions.findOrderToNumber.rejected.type,
         error: errorText,
       })
     ).toEqual({
-      data1: [],
+      orders: [],
       loading: false,
       error: errorText,
     });
   });
 
-  test("should handle GET_INGREDIENTS_fulfilled", () => {
-    expect(
+  test("should handle GET_findOrder_fulfilled", () => {
+       expect(
       reducer(undefined, {
-        type: actions.loadIngredient.fulfilled.type,
-        payload: { data },
+        type: actions.findOrderToNumber.fulfilled.type,
+        payload: {orders},
       })
     ).toEqual({
-      data1: data,
+      orders: orders,
       loading: false,
       error: null,
     });
   });
 
-  test("should handle GET_INGREDIENTS_pending", () => {
+  test("should handle GET_findOrder_pending", () => {
     expect(
       reducer(undefined, {
-        type: actions.loadIngredient.pending.type,
+        type: actions.findOrderToNumber.pending.type,
       })
     ).toEqual({
-      data1: [],
+      orders: [],
       loading: true,
       error: null,
     });

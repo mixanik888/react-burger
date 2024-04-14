@@ -8,7 +8,7 @@ import {
 } from "../actions/middlewareActions";
 import { TOrderKey } from "../../utils/types";
 
-enum TWebSocketStatus {
+export enum TWebSocketStatus {
     ONLINE,
     OFFLINE,
     CONNECTING,
@@ -22,7 +22,7 @@ export interface TWSSlice {
   totalToday: number;
 }
 
-const initialState:TWSSlice = {
+export const initialState:TWSSlice = {
   status: TWebSocketStatus.OFFLINE,
   connectingError: "",
   orders: [],
