@@ -29,7 +29,7 @@ describe("test a burger", () => {
 
   it("should open ingredient details", () => {
     cy.visit("/");
-    cy.get("[class^=Ingredient_ingredient]").first().as("bun");
+    cy.contains('Тестовая булка').parent().as('bun');
     cy.get("@bun").click();
 
     cy.contains("Детали ингредиента");
@@ -37,7 +37,7 @@ describe("test a burger", () => {
   
   });
 
-  it("should dragndrop bun", () => {
+  it("should dragDrop bun", () => {
     cy.get("[class^=Ingredient_ingredient]").first().as("bun");
     cy.get("@bun").trigger("dragstart");
 
