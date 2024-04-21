@@ -9,7 +9,7 @@
 
 .ingredients {
   width: 600px;
-  height: 1212px;
+  /* height: 1212px; */
   flex-direction: column;
   display: flex;
   margin-right: 51px;
@@ -17,7 +17,7 @@
 
 .constructor1 {
   width: 600px;
-  height: 1212px;
+  /* height: 1212px; */
   flex-direction: column;
   display: flex;
 }
